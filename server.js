@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
+const passport = require('passport')
+const session = require('express-session')  
 
 app.set('view engine', 'ejs')
 
@@ -9,7 +11,7 @@ var MongoClient = require('mongodb').MongoClient
 
 var assert = require('assert');
 var db
-var url = 'mongodb://localhost:3000/quotes';
+var url = 'mongodb://localhost:3000/UserItem';
 var mongoClient = new MongoClient(new Server('localhost', 27017));
 
 mongoClient.open(function(err, mongoClient) {
@@ -18,7 +20,7 @@ mongoClient.open(function(err, mongoClient) {
     }
 
     var userDB = mongoClient.db("users");
-    var itemsDB = MongoClient.db("items")
+    var itemsDB = mongoClient.db("items");
 
     app.listen(3001, function(){
         console.log('listening on 3001')
@@ -27,7 +29,8 @@ mongoClient.open(function(err, mongoClient) {
     app.use(bodyParser.urlencoded({extended: true}))
 
     app.get( '/', function(req, res){
-        res.sendFile(__dirname + '/index.html')
+        //res.sendFile(__dirname + '/index.html')
+        res.send('index.html coming soon');
     } )
 
     //app.post('/quotes', (req, res) => {
