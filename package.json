@@ -1,0 +1,22 @@
+{
+  "name": "share_iitk",
+  "version": "1.0.0",
+  "description": "A project to share personal items for IITK Community",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/afrozalm/shareIITK.git"
+  },
+  "keywords": [
+    "npm"
+  ],
+  "author": "TEAM#1729",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/afrozalm/shareIITK/issues"
+  },
+  "homepage": "https://github.com/afrozalm/shareIITK#readme"
+}
