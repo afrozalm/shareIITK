@@ -4,16 +4,19 @@ const app = express();
 const passport = require('passport')
 const session = require('express-session')  
 const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
+
 app.set('view engine', 'ejs')
 
 var MongoClient = require('mongodb').MongoClient
   , Server = require('mongodb').Server;
 
 var assert = require('assert');
+var morgan = require('morgan');
 var db
 var url = 'mongodb://localhost:3000/UserItem';
 var mongoClient = new MongoClient(new Server('localhost', 27017));
-const flash = require('connect-flash');
+
 mongoClient.open(function(err, mongoClient) {
     if(err) {
             console.log(err);
