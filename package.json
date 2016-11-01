@@ -27,7 +27,9 @@
     "express": "^4.14.0",
     "mongodb": "^2.2.11",
     "mongoose": "^4.6.5",
-    "passport": "^0.3.2"
+    "passport": "^0.3.2",
+    "passport-google": "^0.3.0",
+    "passport-oauth": "^1.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
