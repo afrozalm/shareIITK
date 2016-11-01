@@ -27,7 +27,8 @@
     "express-session": "^1.14.2",
     "mongodb": "^1.4.40",
     "mongoose": "^4.6.5",
-    "passport": "^0.3.2"
+    "passport": "^0.3.2",
+    "passport-google-oauth": "^1.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
