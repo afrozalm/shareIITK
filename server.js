@@ -13,7 +13,7 @@ var assert = require('assert');
 var db
 var url = 'mongodb://localhost:3000/UserItem';
 var mongoClient = new MongoClient(new Server('localhost', 27017));
-
+//var flash = require('connect-flash');
 mongoClient.open(function(err, mongoClient) {
     if(err) {
             console.log(err);
@@ -32,8 +32,19 @@ mongoClient.open(function(err, mongoClient) {
         //res.sendFile(__dirname + '/index.html')
         res.send('index.html coming soon');
     } )
+// set up our express application
+//app.use(morgan('dev')); // log every request to the console
+//app.use(cookieParser()); // read cookies (needed for auth)
+// required for passport
+//app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+//app.use(flash()); //
 
-    //app.post('/quotes', (req, res) => {
+
+// routes ======================================================================
+require('./app/routes.js')(app, passport); 
+//app.post('/quotes', (req, res) => {
         //db.collection('quotes').save(req.body, (err, result) => {
             //if (err) return console.log(err)
 
