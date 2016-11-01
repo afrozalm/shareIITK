@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const app = express();
 const passport = require('passport')
 const session = require('express-session')  
-//const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 app.set('view engine', 'ejs')
 
 var MongoClient = require('mongodb').MongoClient
@@ -28,40 +28,18 @@ mongoClient.open(function(err, mongoClient) {
 
     app.use(bodyParser.urlencoded({extended: true}))
 
-    //app.get( '/', function(req, res){
-		//res.sendFile(__dirname + '/index.html')
-        //res.send('index.html coming soon');
-    //} )
-// set up our express application
-//app.use(morgan('dev')); // log every request to the console
-//app.use(cookieParser()); // read cookies (needed for auth)
-// required for passport
-//app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); //
+    app.use(morgan('dev')); // log every request to the console
+    app.use(cookieParser()); // read cookies (needed for auth)
+    // required for passport
+    app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+    app.use(passport.initialize());
+    app.use(passport.session()); // persistent login sessions
+    app.use(flash()); //
 
-app.use(session({ cookie: { maxAge: 60000 }, 
-                  secret: 'woot',
-                  resave: false, 
-                  saveUninitialized: false}));
-// routes ======================================================================
-require('./app/routes.js')(app, passport); 
-//app.post('/quotes', (req, res) => {
-        //db.collection('quotes').save(req.body, (err, result) => {
-            //if (err) return console.log(err)
+    app.use(session({ cookie: { maxAge: 60000 }, 
+                      secret: 'woot',
+                      resave: false, 
+                      saveUninitialized: false}));
 
-            //console.log('saved to database')
-            //res.redirect('/findall')
-        //})
-    //})
-
-    //app.get( '/findall', (req, res) => {
-        //var cursor = db.collection('quotes').find().toArray(function(err, result){
-            //console.log(result);
-            //res.render('index.ejs', {quotes:result})
-        //})
-        //console.log("cursor declared");
-    //} )
-
+    require('./app/routes.js')(app, passport); 
 });
