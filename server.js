@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const app = express();
 const passport = require('passport')
 const session = require('express-session')  
-
+//const cookieParser = require('cookie-parser');
 app.set('view engine', 'ejs')
 
 var MongoClient = require('mongodb').MongoClient
@@ -13,7 +13,7 @@ var assert = require('assert');
 var db
 var url = 'mongodb://localhost:3000/UserItem';
 var mongoClient = new MongoClient(new Server('localhost', 27017));
-//var flash = require('connect-flash');
+const flash = require('connect-flash');
 mongoClient.open(function(err, mongoClient) {
     if(err) {
             console.log(err);
@@ -28,10 +28,10 @@ mongoClient.open(function(err, mongoClient) {
 
     app.use(bodyParser.urlencoded({extended: true}))
 
-    app.get( '/', function(req, res){
-        //res.sendFile(__dirname + '/index.html')
-        res.send('index.html coming soon');
-    } )
+    //app.get( '/', function(req, res){
+		//res.sendFile(__dirname + '/index.html')
+        //res.send('index.html coming soon');
+    //} )
 // set up our express application
 //app.use(morgan('dev')); // log every request to the console
 //app.use(cookieParser()); // read cookies (needed for auth)
@@ -39,9 +39,12 @@ mongoClient.open(function(err, mongoClient) {
 //app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
-//app.use(flash()); //
+app.use(flash()); //
 
-
+app.use(session({ cookie: { maxAge: 60000 }, 
+                  secret: 'woot',
+                  resave: false, 
+                  saveUninitialized: false}));
 // routes ======================================================================
 require('./app/routes.js')(app, passport); 
 //app.post('/quotes', (req, res) => {
