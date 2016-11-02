@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const app = express();
 const passport = require('passport')
 const session = require('express-session')  
-const cookieParser = require('cookie-parser');
+//const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 
 app.set('view engine', 'ejs')

@@ -60,6 +60,33 @@ module.exports = function(app, passport) {
 		req.logout();
 		res.redirect('/');
 	});
+
+	// =====================================
+	// SEARCH ===============================
+	// =====================================
+	// show the search form
+	app.get('/search', function(req, res) {
+		// render the page and pass in any flash data if it exists
+		res.render('search.ejs', { message: req.flash('loginMessage') });
+	});
+
+	// =====================================
+	// Insert Item ==============================
+	// =====================================
+	// show the signup form
+	app.get('/insertItem', function(req, res) {
+		// render the page and pass in any flash data if it exists
+		res.render('insertItem.ejs', { message: req.flash('signupMessage') });
+	});
+
+	// =====================================
+
+	// process the login form
+	//app.post('/login', passport.authenticate('local-login', {
+		//successRedirect : '/profile', // redirect to the secure profile section
+		//failureRedirect : '/login', // redirect back to the signup page if there is an error
+		//failureFlash : true // allow flash messages
+	//}));
 };
 
 // route middleware to make sure
