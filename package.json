@@ -22,17 +22,18 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
+    "connect-flash": "^0.1.1",
     "connect-mongodb-session": "^1.3.0",
     "ejs": "^2.5.2",
     "express": "^4.14.0",
     "express-session": "^1.14.2",
     "mongodb": "^1.4.40",
     "mongoose": "^4.6.5",
+    "morgan": "^1.7.0",
     "passport": "^0.3.2",
-    "passport-google-oauth": "^1.0.0",
-    "connect-flash": "^0.1.1",
-    "mongodb": "^2.2.11",
     "passport-google": "^0.3.0",
+    "passport-google-oauth": "^1.0.0",
+    "passport-local": "^1.0.0",
     "passport-oauth": "^1.0.0"
   },
   "devDependencies": {
