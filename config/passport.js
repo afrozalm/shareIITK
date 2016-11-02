@@ -2,10 +2,10 @@
 
 // load all the things we need
 var LocalStrategy   = require('passport-local').Strategy;
-
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 // load up the user model
 var User       		= require('../app/models/user');
-
+var configAuth = require('./auth');
 // expose this function to our app using module.exports
 module.exports = function(passport) {
 
@@ -106,6 +106,40 @@ module.exports = function(passport) {
 
             // all is well, return successful user
             return done(null, user);
+        });
+
+    }));
+//=========================================GOOGLE LOGIN=====================
+//==========================================================================
+//
+passport.use(new GoogleStrategy({
+
+        clientID        : configAuth.googleAuth.clientID,
+        clientSecret    : configAuth.googleAuth.clientSecret,
+        callbackURL     : configAuth.googleAuth.callbackURL,
+
+    },
+	function(token, refreshToken, profile, done) {
+		process.nextTick(function() {
+            User.findOne({ 'google.id' : profile.id }, function(err, user) {
+                if (err)
+                    return done(err);
+
+                if (user) {
+                    return done(null, user);
+                } else {
+                    var newUser          = new User();
+                    newUser.google.id    = profile.id;
+                    newUser.google.token = token;
+                    newUser.google.name  = profile.displayName;
+                    newUser.google.email = profile.emails[0].value; 
+                    newUser.save(function(err) {
+                        if (err)
+                            throw err;
+                        return done(null, newUser);
+                    });
+                }
+            })
         });
 
     }));
