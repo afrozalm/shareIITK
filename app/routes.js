@@ -69,24 +69,22 @@ module.exports = function(app, passport) {
 		// render the page and pass in any flash data if it exists
 		res.render('search.ejs', { message: req.flash('loginMessage') });
 	});
+    app.post('/search',function(req,res){
+        res.render('search.ejs', { message: req.flash('loginMessage') })
+    });
 
 	// =====================================
-	// Insert Item ==============================
+	// INSERT  ===============================
 	// =====================================
-	// show the signup form
-	app.get('/insertItem', function(req, res) {
+	// show the search form
+	app.get('/insert', function(req, res) {
 		// render the page and pass in any flash data if it exists
-		res.render('insertItem.ejs', { message: req.flash('signupMessage') });
+		res.render('insert.ejs', { message: req.flash('loginMessage') });
 	});
-
-	// =====================================
-
-	// process the login form
-	//app.post('/login', passport.authenticate('local-login', {
-		//successRedirect : '/profile', // redirect to the secure profile section
-		//failureRedirect : '/login', // redirect back to the signup page if there is an error
-		//failureFlash : true // allow flash messages
-	//}));
+    app.post('/insert',function(req,res){
+        res.render('insert.ejs', { message: req.flash('loginMessage') })
+    });
+	
 };
 
 // route middleware to make sure

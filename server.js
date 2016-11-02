@@ -4,7 +4,7 @@ const app = express();
 const passport = require('passport')
 const mongoose = require('mongoose');
 const session = require('express-session')  
-//const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 
 app.set('view engine', 'ejs')
