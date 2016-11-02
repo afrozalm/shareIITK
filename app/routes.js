@@ -108,7 +108,24 @@ module.exports = function(app, passport) {
     });
 	
 };
+//=======
+//=============================================
+//==============================================
+//GOOGLE
+//=====================================
 
+
+app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+    // the callback after google has authenticated the user
+    app.get('/auth/google/callback',
+            passport.authenticate('google', {
+                    successRedirect : '/profile',
+                    failureRedirect : '/'
+            }));
+
+
+
+};
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
 
