@@ -8,11 +8,12 @@ var itemSchema = mongoose.Schema({
 
     id          : Number,
     name        : String,
-    category    : {
-        book         : Boolean,
-        cycle        : Boolean,
-        mattress     : Boolean,
-    },
+    category    : String,
+    //category    : {
+        //book         : Boolean,
+        //cycle        : Boolean,
+        //mattress     : Boolean,
+    //},
     description : String
 
 });

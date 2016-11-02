@@ -1,4 +1,6 @@
 // app/routes.js
+var Item = require('../app/models/items.js')
+
 module.exports = function(app, passport) {
 
 	// =====================================
@@ -67,9 +69,14 @@ module.exports = function(app, passport) {
 	// show the search form
 	app.get('/search', function(req, res) {
 		// render the page and pass in any flash data if it exists
+        Item.find({name: req.body.search},function(err, item){
+            if(err) throw err;
+            res.render("Requested Item found ");
+
+        });
 		res.render('search.ejs', { message: req.flash('loginMessage') });
 	});
-    app.post('/search',function(req,res){
+    app.post('/search',function(req,res){ 
         res.render('search.ejs', { message: req.flash('loginMessage') })
     });
 
@@ -82,7 +89,18 @@ module.exports = function(app, passport) {
 		res.render('insert.ejs', { message: req.flash('loginMessage') });
 	});
     app.post('/insert',function(req,res){
-        res.render('insert.ejs', { message: req.flash('loginMessage') })
+        var newItem = new Item({
+            id: req.body.id,
+            name: req.body.name,
+            category: req.body.category,
+            description: req.body.description    
+        });
+
+        newItem.save(function(err){
+            if(err) throw err;
+            res.send('New Item Created\n' + req.body.id + ' : ' + req.body.name);
+        });
+        //res.render('insert.ejs', { message: req.flash('loginMessage') })
     });
 	
 };
