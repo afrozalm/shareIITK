@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
 const passport = require('passport')
+const mongoose = require('mongoose');
 const session = require('express-session')  
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
@@ -13,8 +14,9 @@ app.set('view engine', 'ejs')
 
 var assert = require('assert');
 var morgan = require('morgan');
+var configDB = require('./config/database.js');
 
-require('./config/passport')(passport);
+mongoose.connect(configDB.url);
 
 //var db
 //var url = 'mongodb://localhost:3000/UserItem';
@@ -51,5 +53,6 @@ require('./config/passport')(passport);
                       resave: false, 
                       saveUninitialized: false}));
 
+    require('./config/passport')(passport);
     require('./app/routes.js')(app, passport); 
 //});
