@@ -69,15 +69,19 @@ module.exports = function(app, passport) {
 	// show the search form
 	app.get('/search', function(req, res) {
 		// render the page and pass in any flash data if it exists
-        Item.find({name: req.body.search},function(err, item){
-            if(err) throw err;
-            res.render("Requested Item found ");
-
-        });
 		res.render('search.ejs', { message: req.flash('loginMessage') });
 	});
     app.post('/search',function(req,res){ 
-        res.render('search.ejs', { message: req.flash('loginMessage') })
+        Item.find({name: req.body.search},function(err, item){
+            if(err) throw err;
+
+            if(item =="") 
+                res.send("NOT FOUND");
+            else
+                res.send("Requested Item found*"+item+"*");
+
+        });
+        //res.render('search.ejs', { message: req.flash('loginMessage') })
     });
 
 	// =====================================
