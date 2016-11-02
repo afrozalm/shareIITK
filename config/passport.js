@@ -43,6 +43,7 @@ module.exports = function(passport) {
 
 		// find a user whose email is the same as the forms email
 		// we are checking to see if the user trying to login already exists
+        //console.log('inside local-signup');
         User.findOne({ 'local.email' :  email }, function(err, user) {
             // if there are any errors, return the error
             if (err)
@@ -50,6 +51,7 @@ module.exports = function(passport) {
 
             // check to see if theres already a user with that email
             if (user) {
+                console.log('inside signing in');
                 return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
             } else {
 
