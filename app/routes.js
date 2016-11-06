@@ -1,6 +1,6 @@
 // app/routes.js
-var Item = require('../app/models/items.js');
-var currentUser;
+//var Item = require('../app/models/items.js');
+var currentUser; 
 
 module.exports = function(app, passport) {
 
