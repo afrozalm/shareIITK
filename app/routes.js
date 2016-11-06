@@ -1,5 +1,6 @@
 // app/routes.js
 var Item = require('../app/models/items.js');
+var UserSchema = require('../app/models/user.js')
 var currentUser; 
 var dialog = require('dialog');
 
@@ -61,7 +62,7 @@ module.exports = function(app, passport) {
 
 	// =====================================
 	// LOGOUT ==============================
-	// =====================================
+	// =====================================-
 	app.get('/logout', function(req, res) {
 		req.logout();
 		res.redirect('/');
@@ -96,21 +97,25 @@ module.exports = function(app, passport) {
 		// render the page and pass in any flash data if it exists
 		res.render('insert.ejs', { message: req.flash('loginMessage'), user: currentUser });
 	});
+
     app.post('/insert',function(req,res){
-        var newItem = new Item({
-            id: req.body.id,
-            name: req.body.name,
-            //username: user.name,
-            category: req.body.category,
-            description: req.body.description    
+        UserSchema.find({},function(err,item){
+            res.send(item);
         });
 
-        newItem.save(function(err){
-            if(err) throw err;
-            res.render('newItem.ejs', {item: newItem})
-            //res.send('New Item Created\n' + req.body.id + ' : ' + req.body.name + " : " + req.body.description);
-        });
-        //res.render('insert.ejs', { message: req.flash('loginMessage') })
+        //var newItem = new Item({
+            //id: req.body.id,
+            //name: req.body.name,
+            //username: user.name,
+            //category: req.body.category,
+            //description: req.body.description    
+        //});
+    
+
+
+        //Item.find({name: "Colgate"},function(err,item){
+            //res.send(item+currentUser);
+        //});
     });
 
     
