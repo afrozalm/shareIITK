@@ -29,13 +29,14 @@
 						<strong> Your USER ID</strong>: <%= user._id %><br>
 						<strong>Email</strong>: <%= user.local.email %><br>
                         <strong>Name</strong>: <%= user.local.name %><br>
-                        <% for ( var i; i < user.itemList.length; i++ ) %>
-                        <li>
-                            <strong>
-                                <%= user.local.name %><br>
-                            </strong>
-                        </li>
-					</p>
+                        <% for ( var i = 0; i < user.itemList.length; i++ ) { %>
+                            <li>
+                                <strong>
+                                <%= user.itemList[i].name %><br>
+                                </strong>
+                            </li>
+                        <% } %>
+                    </p>
 
 			</div>
 		</div>
