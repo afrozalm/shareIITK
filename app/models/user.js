@@ -2,32 +2,37 @@
 // load the things we need
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
-var Item = require('./items.js')
-// define the schema for our user model
-var userSchema = mongoose.Schema({
+var Schema   = mongoose.Schema;
 
-    local            : {
-        name         : { type: String, required: true  }, 
-        email        : { type: String, required: true  },
-        password     : { type: String, required: true  },
+var itemSchema = new Schema({
+
+    id          : Number,
+    name        : String,
+    username    : String,
+    category    : String,
+    //category    : {
+        //book         : Boolean,
+        //cycle        : Boolean,
+        //mattress     : Boolean,
+    //},
+    description : String
+
+});
+// define the schema for our user model
+var userSchema = new Schema({
+
+    local           : {
+        name            : { type: String, required: true  }, 
+        email           : { type: String, required: true  },
+        password        : { type: String, required: true  },
     },
-    google           : {
-        id           : String,
-        token        : String,
-        email        : String,
-        name         : String
+    google          : {
+        id              : String,
+        token           : String,
+        email           : String,
+        name            : String
     },
-    itemList    : [{
-        id          : Number,
-        name        : String,
-        category    : String,
-        //category    : {
-            //book         : Boolean,
-            //cycle        : Boolean,
-            //mattress     : Boolean,
-        //},
-        description : String
-    }]
+    itemList        : [itemSchema]
 });
 
 // methods ======================
@@ -41,5 +46,14 @@ userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 
+userSchema.methods.getItemsByCategory = function( category ) {
+    matchingList = [];
+    for ( var i = 0; i < this.itemList.length; i++ ){
+        if ( category.localCompare( this.itemList[i].category ) == 0 )
+            matchingList.push(this.itemList[i]);
+    }
+
+    return matchingList;
+}
 // create the model for users and expose it to our app
 module.exports = mongoose.model('User', userSchema);
