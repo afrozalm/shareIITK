@@ -28,6 +28,13 @@
 					<p>
 						<strong> Your USER ID</strong>: <%= user._id %><br>
 						<strong>Email</strong>: <%= user.local.email %><br>
+                        <strong>Name</strong>: <%= user.local.name %><br>
+                        <% for ( var i; i < user.itemList.length; i++ ) %>
+                        <li>
+                            <strong>
+                                <%= user.local.name %><br>
+                            </strong>
+                        </li>
 					</p>
 
 			</div>

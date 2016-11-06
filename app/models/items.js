@@ -20,15 +20,5 @@ var itemSchema = mongoose.Schema({
 });
 
 // methods ======================
-// generating a hash
-itemSchema.methods.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-};
-
-// checking if password is valid
-itemSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.local.password);
-};
-
 // create the model for users and expose it to our app
 module.exports = mongoose.model('Item', itemSchema);
