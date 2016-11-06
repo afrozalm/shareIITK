@@ -1,5 +1,6 @@
 // app/routes.js
-var Item = require('../app/models/items.js')
+var Item = require('../app/models/items.js');
+var currentUser;
 
 module.exports = function(app, passport) {
 
@@ -50,9 +51,10 @@ module.exports = function(app, passport) {
 	// we will want this protected so you have to be logged in to visit
 	// we will use route middleware to verify this (the isLoggedIn function)
 	app.get('/profile', isLoggedIn, function(req, res) {
-		res.render('profile.ejs', {
-			user : req.user // get the user out of session and pass to template
-		});
+        //res.render('tmp.ejs',{currentUser: req.user});
+        res.render('profile.ejs', {
+            user : req.user // get the user out of session and pass to template
+        });
 	});
 
 	// =====================================
@@ -96,17 +98,29 @@ module.exports = function(app, passport) {
         var newItem = new Item({
             id: req.body.id,
             name: req.body.name,
+            //username: user.name,
             category: req.body.category,
             description: req.body.description    
         });
 
         newItem.save(function(err){
             if(err) throw err;
-            res.send('New Item Created\n' + req.body.id + ' : ' + req.body.name);
+            res.render('newItem.ejs', {item: newItem})
+            //res.send('New Item Created\n' + req.body.id + ' : ' + req.body.name + " : " + req.body.description);
         });
         //res.render('insert.ejs', { message: req.flash('loginMessage') })
     });
-	
+
+    //app.post('/newItem_to_user',function(req,res){
+
+	app.post('/newItem_to_user', isLoggedIn, function(req, res) {
+		res.render('profile.ejs', {
+			user : req.user // get the user out of session and pass to template
+		});
+    });
+
+        //res.render('profile.ejs', { message: req.flash('loginMessage') });
+    //});
 //=======
 //=============================================
 //==============================================

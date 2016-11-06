@@ -1,0 +1,41 @@
+<!-- views/login.ejs -->
+<!doctype html>
+<html>
+<head>
+	<title>New item Inserted</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+	<style>
+		body 		{ padding-top:80px; }
+	</style>
+</head>
+<body>
+<div class="container">
+
+<div class="col-sm-6 col-sm-offset-3">
+
+	<h1><span class="fa fa-sign-in"></span>New Item</h1>
+
+
+	<!-- LOGIN FORM -->
+	<form action="/newItem_to_user" method="post">
+		<div class="form-group">
+            <ul>
+            <li><label>Item ID: <%= item.id %></label></li>
+            <li><label>Item Name: <%= item.name %></label></li>
+            <li><label>Username: <%= item.username %></label></li>
+            <li><label>Category: <%= item.category %></label></li>
+            <li><label>Description: <%= item.description %></label></li>
+		</div>
+        <div>
+        <button type="submit" class="btn btn-warning btn-lg">Return to DashBoard</button>
+            </div>
+	</form>
+	
+
+	<hr>
+</div>
+
+</div>
+</body>
+</html>

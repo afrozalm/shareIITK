@@ -2,7 +2,7 @@
 // load the things we need
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
-
+var Item = require('./items.js')
 // define the schema for our user model
 var userSchema = mongoose.Schema({
 
@@ -27,8 +27,20 @@ var userSchema = mongoose.Schema({
         token        : String,
         email        : String,
         name         : String
-    }
+    },
 
+    itemList    : [{
+        id          : Number,
+        name        : String,
+        username    :String,
+        category    : String,
+        //category    : {
+            //book         : Boolean,
+            //cycle        : Boolean,
+            //mattress     : Boolean,
+        //},
+        description : String
+    }]
 });
 
 // methods ======================
