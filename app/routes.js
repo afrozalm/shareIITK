@@ -1,6 +1,8 @@
 // app/routes.js
 var Item = require('../app/models/items.js');
+var UserSchema = require('../app/models/user.js')
 var currentUser; 
+var dialog = require('dialog');
 
 module.exports = function(app, passport) {
 
@@ -60,7 +62,7 @@ module.exports = function(app, passport) {
 
 	// =====================================
 	// LOGOUT ==============================
-	// =====================================
+	// =====================================-
 	app.get('/logout', function(req, res) {
 		req.logout();
 		res.redirect('/');
@@ -95,27 +97,38 @@ module.exports = function(app, passport) {
 		// render the page and pass in any flash data if it exists
 		res.render('insert.ejs', { message: req.flash('loginMessage'), user: currentUser });
 	});
+
     app.post('/insert',function(req,res){
-        var newItem = new Item({
-            id: req.body.id,
-            name: req.body.name,
-            //username: user.name,
-            category: req.body.category,
-            description: req.body.description    
+        UserSchema.find({},function(err,item){
+            res.send(item);
         });
 
-        newItem.save(function(err){
-            if(err) throw err;
-            res.render('newItem.ejs', {item: newItem})
-            //res.send('New Item Created\n' + req.body.id + ' : ' + req.body.name + " : " + req.body.description);
-        });
-        //res.render('insert.ejs', { message: req.flash('loginMessage') })
+        //var newItem = new Item({
+            //id: req.body.id,
+            //name: req.body.name,
+            //username: user.name,
+            //category: req.body.category,
+            //description: req.body.description    
+        //});
+    
+
+
+        //Item.find({name: "Colgate"},function(err,item){
+            //res.send(item+currentUser);
+        //});
     });
 
-    //app.post('/newItem_to_user',function(req,res){
-
-	app.post('/newItem_to_user',function(req, res) {
-        res.render('profile.ejs', {
+    
+    //=====================================
+    //==========RETURN_TO_DASHBOARD========
+    //=====================================
+	//app.post('/newItem_to_user',function(req, res) {
+	app.post('/return_to_dashboard',function(req, res) {
+        res.render('profile.ejs', function(err){
+            if(err){
+                dialog.err('You need to login to continue','Login Error',function(err){});
+		        res.render('login.ejs', { message: req.flash('loginMessage') });
+            };
             user: currentUser});
     });
 
