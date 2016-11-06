@@ -99,17 +99,30 @@ module.exports = function(app, passport) {
 	});
 
     app.post('/insert',function(req,res){
+
+        var newItem = new Item({
+            id: req.body.id,
+            name: req.body.name,
+            username: currentUser.name,
+            category: req.body.category,
+            description: req.body.description    
+        });
+        
+        UserSchema.findByIdAndUpdate(
+                currentUser._id,
+                {$push: {
+                    "itemList": newItem
+                }},
+                function(err){
+                    if (err) throw err;
+                    //res.render('newItem.ejs', { item: newItem })
+                }
+        );
+
+        
         UserSchema.find({},function(err,item){
             res.send(item);
         });
-
-        //var newItem = new Item({
-            //id: req.body.id,
-            //name: req.body.name,
-            //username: user.name,
-            //category: req.body.category,
-            //description: req.body.description    
-        //});
     
 
 
