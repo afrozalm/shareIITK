@@ -17,11 +17,9 @@ var userSchema = mongoose.Schema({
         email        : String,
         name         : String
     },
-
     itemList    : [{
         id          : Number,
         name        : String,
-        //username    :String,
         category    : String,
         //category    : {
             //book         : Boolean,
