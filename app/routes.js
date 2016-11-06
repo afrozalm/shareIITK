@@ -1,6 +1,7 @@
 // app/routes.js
 var Item = require('../app/models/items.js');
 var currentUser; 
+var dialog = require('dialog');
 
 module.exports = function(app, passport) {
 
@@ -112,10 +113,17 @@ module.exports = function(app, passport) {
         //res.render('insert.ejs', { message: req.flash('loginMessage') })
     });
 
-    //app.post('/newItem_to_user',function(req,res){
-
-	app.post('/newItem_to_user',function(req, res) {
-        res.render('profile.ejs', {
+    
+    //=====================================
+    //==========RETURN_TO_DASHBOARD========
+    //=====================================
+	//app.post('/newItem_to_user',function(req, res) {
+	app.post('/return_to_dashboard',function(req, res) {
+        res.render('profile.ejs', function(err){
+            if(err){
+                dialog.err('You need to login to continue','Login Error',function(err){});
+		        res.render('login.ejs', { message: req.flash('loginMessage') });
+            };
             user: currentUser});
     });
 
