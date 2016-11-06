@@ -1,5 +1,5 @@
 // app/routes.js
-//var Item = require('../app/models/items.js');
+var Item = require('../app/models/items.js');
 var currentUser; 
 
 module.exports = function(app, passport) {
@@ -52,6 +52,7 @@ module.exports = function(app, passport) {
 	// we will use route middleware to verify this (the isLoggedIn function)
 	app.get('/profile', isLoggedIn, function(req, res) {
         //res.render('tmp.ejs',{currentUser: req.user});
+        currentUser = req.user 
         res.render('profile.ejs', {
             user : req.user // get the user out of session and pass to template
         });
@@ -92,7 +93,7 @@ module.exports = function(app, passport) {
 	// show the search form
 	app.get('/insert', function(req, res) {
 		// render the page and pass in any flash data if it exists
-		res.render('insert.ejs', { message: req.flash('loginMessage') });
+		res.render('insert.ejs', { message: req.flash('loginMessage'), user: currentUser });
 	});
     app.post('/insert',function(req,res){
         var newItem = new Item({
@@ -113,10 +114,9 @@ module.exports = function(app, passport) {
 
     //app.post('/newItem_to_user',function(req,res){
 
-	app.post('/newItem_to_user', isLoggedIn, function(req, res) {
-		res.render('profile.ejs', {
-			user : req.user // get the user out of session and pass to template
-		});
+	app.post('/newItem_to_user',function(req, res) {
+        res.render('profile.ejs', {
+            user: currentUser});
     });
 
         //res.render('profile.ejs', { message: req.flash('loginMessage') });
