@@ -107,14 +107,18 @@ module.exports = function(app, passport) {
             category: req.body.category,
             description: req.body.description    
         });
+    
         
+
         UserSchema.findByIdAndUpdate(
                 currentUser._id,
                 {$push: {
                     "itemList": newItem
                 }},
                 function(err){
-                    if (err) throw err;
+                    if (err) {
+                        dialog.err('Please login to Continue','Login Error',function(err){throw err;});
+                    };
                     //res.render('newItem.ejs', { item: newItem })
                 }
         );
@@ -136,17 +140,10 @@ module.exports = function(app, passport) {
     //==========RETURN_TO_DASHBOARD========
     //=====================================
 	//app.post('/newItem_to_user',function(req, res) {
-	app.post('/return_to_dashboard',function(req, res) {
-        res.render('profile.ejs', function(err){
-            if(err){
-                dialog.err('You need to login to continue','Login Error',function(err){});
-		        res.render('login.ejs', { message: req.flash('loginMessage') });
-            };
-            user: currentUser});
+    app.post('/return_to_dashboard',function(req, res) {
+        res.render('profile.ejs',{user: currentUser});
     });
 
-        //res.render('profile.ejs', { message: req.flash('loginMessage') });
-    //});
 //=======
 //=============================================
 //==============================================
