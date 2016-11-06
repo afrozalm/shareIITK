@@ -17,8 +17,7 @@ var userSchema = mongoose.Schema({
         email        : String,
         name         : String
     },
-
-    itemList    :     [{
+    itemList    : [{
         id          : Number,
         name        : String,
         category    : String,
