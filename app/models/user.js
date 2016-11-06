@@ -7,20 +7,9 @@ var Item = require('./items.js')
 var userSchema = mongoose.Schema({
 
     local            : {
-        email        : String,
-        password     : String,
-    },
-    facebook         : {
-        id           : String,
-        token        : String,
-        email        : String,
-        name         : String
-    },
-    twitter          : {
-        id           : String,
-        token        : String,
-        displayName  : String,
-        username     : String
+        name         : { type: String, required: true  }, 
+        email        : { type: String, required: true  },
+        password     : { type: String, required: true  },
     },
     google           : {
         id           : String,
@@ -29,10 +18,9 @@ var userSchema = mongoose.Schema({
         name         : String
     },
 
-    itemList    : [{
+    itemList    :     [{
         id          : Number,
         name        : String,
-        username    :String,
         category    : String,
         //category    : {
             //book         : Boolean,
