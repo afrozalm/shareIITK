@@ -13,9 +13,10 @@
 <div class="container">
 
 	<div class="page-header text-center">
-		<h1><span class="fa fa-anchor"></span> Profile Page: Welcome <%= user.local.email %><%= user.google.name %></h1>
+		<h1><span class="fa fa-anchor"></span> Profile Page: Welcome <%= user.local.name %><%= user.google.name %></h1>
 		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
 		<a href="/insert" class="btn btn-default btn-sm">Insert Item</a>
+		<a href="/search" class="btn btn-default btn-sm">Search Item</a>
 	</div>
 
 	<div class="row">
@@ -29,7 +30,7 @@
 						<strong> Your USER ID</strong>: <%= user._id %><br>
 						<strong>Email</strong>: <%= user.local.email %><br>
 
-                        <strong>Items Shared by You </strong>: <br>
+
 
                         <strong>Name</strong>: <%= user.local.name %><br>
                         <% for ( var i = 0; i < user.itemList.length; i++ ) { %>
@@ -41,10 +42,23 @@
                         <% } %>
                     </p>
 
+
+					</p>
+
 			</div>
 		</div>
 	</div>
 
+    <div>
+        <strong>Items Shared by You </strong>: <br>
+        <% for ( var i=0; i < user.itemList.length; i++ ) { %>
+            <li>
+                <strong>
+                    <%= user.itemList[i].name %> : <%= user.itemList[i].category %> : <%= user.itemList[i].description %> <br>
+                </strong>
+            </li>
+            <% } %>
+    </div>
 </div>
 </body>
 </html>
