@@ -6,10 +6,10 @@ var Schema   = mongoose.Schema;
 
 var itemSchema = new Schema({
 
-    id          : Number,
-    name        : String,
-    username    : String,
-    category    : String,
+    //id          : Number,
+    name        : { type: String, required: true  },
+    username    : { type: String, required: true  },
+    category    : { type: String, required: true  },
     //category    : {
         //book         : Boolean,
         //cycle        : Boolean,
