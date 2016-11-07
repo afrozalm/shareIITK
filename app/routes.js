@@ -75,12 +75,20 @@ module.exports = function(app, passport) {
 	});
 
     app.post('/search',function(req,res){ 
-        UserSchema.find({
-            'itemList.name': req.body.search},
-            function(err, userList){
-                if(err) throw err;
-                res.render('searchFound.ejs', {userList: userList, user: req.user});
-            });
+        //UserSchema.find({
+            //'itemList.name': req.body.search},
+            //function(err, userList){
+                //if(err) throw err;
+                //res.render('searchFound.ejs', {userList: userList, user: req.user});
+            //});
+
+		var query = UserSchema.find({'itemList.name' : req.body.search});
+		query.select("itemList").populate("itemList");
+		query.exec(function(err,results){
+			console.log(results);
+			var itemList = results.map(function(r){	res.render('searchFound.ejs', {userList: r.itemList, user: req.user});});
+		//console.log(itemList);
+			});
     });
 
 	// =====================================
