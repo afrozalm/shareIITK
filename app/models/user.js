@@ -8,9 +8,9 @@ var itemSchema = new Schema({
 
     //id          : Number,
     name        : { type: String, required: true  },
-    username    : { type: String, required: true  },
+    //username    : { type: String, required: true  },
     category    : { type: String, required: true  },
-    request_notification : String,
+    //request_notification : String,
 
 	item_status : Number, // 0 for delete, 1 for invisible, 2 for visible
 	//category    : {
@@ -19,7 +19,6 @@ var itemSchema = new Schema({
         //mattress     : Boolean,
     //},
     description : String
-
 });
 // define the schema for our user model
 var userSchema = new Schema({

@@ -76,20 +76,22 @@ module.exports = function(app, passport) {
 	});
 
     app.post('/search',function(req,res){ 
-        //UserSchema.find({
-            //'itemList.name': req.body.search},
-            //function(err, userList){
-                //if(err) throw err;
-                //res.render('searchFound.ejs', {userList: userList, user: req.user});
-            //});
-
-		var query = UserSchema.find({'itemList.name' : req.body.search});
-		query.select("itemList").populate("itemList");
-		query.exec(function(err,results){
-			console.log(results);
-			var itemList = results.map(function(r){	res.render('searchFound.ejs', {userList: r.itemList, user: req.user});});
-		//console.log(itemList);
+		Item.find({
+			'name': req.body.search},
+			function(err, itemList){
+				console.log("Printing");
+				if(err) throw err;
+				//console.log(itemList);
+				res.render('searchFound.ejs', {itemList: itemList, user: req.user});
 			});
+
+		//var query = UserSchema.find({'itemList.name' : req.body.search});
+		//query.select("itemList").populate("itemList");
+		//query.exec(function(err,results){
+			//console.log(results);
+			//var itemList = results.map(function(r){	res.render('searchFound.ejs', {userList: r.itemList, user: req.user});});
+		//console.log(itemList);
+			//});
     });
 
 // INSERT  ===============================
@@ -108,14 +110,19 @@ module.exports = function(app, passport) {
         }
 
         var newItem = new Item({
-            id: req.body.id,
+            //id: req.body.id,
             name: req.body.name,
             username: req.user.local.name,
-            category: req.body.category,
+			category: req.body.category,
             description: req.body.description,
 			item_status: 2
-        });    
-
+        });   
+		newItem.save(function(err) {
+                    if (err){ 
+                        console.log("Going to throw up");
+                        throw err; }
+                    //return done(null, newItem);
+                });
         UserSchema.findByIdAndUpdate(
                 req.user._id,
                 {$push: {
