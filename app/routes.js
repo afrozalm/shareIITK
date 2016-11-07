@@ -110,19 +110,13 @@ module.exports = function(app, passport) {
         }
 
         var newItem = new Item({
-            //id: req.body.id,
             name: req.body.name,
-            username: req.user.local.name,
+            username: req.user._id,
 			category: req.body.category,
             description: req.body.description,
 			item_status: 2
         });   
-		newItem.save(function(err) {
-                    if (err){ 
-                        console.log("Going to throw up");
-                        throw err; }
-                    //return done(null, newItem);
-                });
+		newItem.save();
         UserSchema.findByIdAndUpdate(
                 req.user._id,
                 {$push: {
