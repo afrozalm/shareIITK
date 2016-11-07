@@ -75,16 +75,12 @@ module.exports = function(app, passport) {
 	});
 
     app.post('/search',function(req,res){ 
-        Item.find({name: req.body.search},function(err, item){
-            if(err) throw err;
-
-            if(item =="") 
-                res.send("NOT FOUND");
-            else
-                res.send("Requested Item found*"+item+"*");
-
-        });
-        //res.render('search.ejs', { message: req.flash('loginMessage') })
+        UserSchema.find({
+            'itemList.name': req.body.search},
+            function(err, userList){
+                if(err) throw err;
+                res.render('searchFound.ejs', {userList: userList, user: req.user});
+            });
     });
 
 	// =====================================
