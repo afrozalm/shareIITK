@@ -8,9 +8,9 @@ var itemSchema = new Schema({
 
     //id          : Number,
     name        : { type: String, required: true  },
-    username    : { type: String, required: true  },
+    username    : { type : mongoose.Schema.Types.ObjectId, ref: userSchema  },
     category    : { type: String, required: true  },
-    request_notification : String,
+    request_notification : { type : mongoose.Schema.Types.ObjectId, default: null },
 
 	item_status : Number, // 0 for delete, 1 for invisible, 2 for visible
 	//category    : {
