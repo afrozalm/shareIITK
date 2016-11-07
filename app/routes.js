@@ -93,6 +93,7 @@ module.exports = function(app, passport) {
 	});
 
     app.post('/insert',function(req,res){
+
         var newItem = new Item({
             id: req.body.id,
             name: req.body.name,
