@@ -5,18 +5,16 @@ var bcrypt   = require('bcrypt-nodejs');
 
 // define the schema for our user model
 var itemSchema = mongoose.Schema({
-
     id          : Number,
     name        : String,
     username    :String,
     category    : String,
     //category    : {
         //book         : Boolean,
-        //cycle        : Boolean,
+        //cycle        : Boolean,   
         //mattress     : Boolean,
     //},
     description : String
-
 });
 
 // methods ======================
