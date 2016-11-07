@@ -1,7 +1,6 @@
 // app/routes.js
 var Item = require('../app/models/items.js');
 var UserSchema = require('../app/models/user.js')
-var currentUser; 
 var dialog = require('dialog');
 
 module.exports = function(app, passport) {
@@ -53,8 +52,6 @@ module.exports = function(app, passport) {
 	// we will want this protected so you have to be logged in to visit
 	// we will use route middleware to verify this (the isLoggedIn function)
 	app.get('/profile', isLoggedIn, function(req, res) {
-        //res.render('tmp.ejs',{currentUser: req.user});
-        currentUser = req.user 
         res.render('profile.ejs', {
             user : req.user // get the user out of session and pass to template
         });
@@ -76,6 +73,7 @@ module.exports = function(app, passport) {
 		// render the page and pass in any flash data if it exists
 		res.render('search.ejs', { message: req.flash('loginMessage') });
 	});
+
     app.post('/search',function(req,res){ 
         Item.find({name: req.body.search},function(err, item){
             if(err) throw err;
@@ -95,23 +93,20 @@ module.exports = function(app, passport) {
 	// show the search form
 	app.get('/insert', function(req, res) {
 		// render the page and pass in any flash data if it exists
-		res.render('insert.ejs', { message: req.flash('loginMessage'), user: currentUser });
+        res.render('insert.ejs', { message: req.flash('loginMessage'), user: req.user });
 	});
 
     app.post('/insert',function(req,res){
-
         var newItem = new Item({
             id: req.body.id,
             name: req.body.name,
-            username: currentUser.name,
+            username: req.user.name,
             category: req.body.category,
             description: req.body.description    
-        });
-    
-        
+        });    
 
         UserSchema.findByIdAndUpdate(
-                currentUser._id,
+                req.user._id,
                 {$push: {
                     "itemList": newItem
                 }},
@@ -119,20 +114,9 @@ module.exports = function(app, passport) {
                     if (err) {
                         dialog.err('Please login to Continue','Login Error',function(err){throw err;});
                     };
-                    //res.render('newItem.ejs', { item: newItem })
+                    res.render('newItem.ejs', { item: newItem })
                 }
         );
-
-        
-        UserSchema.find({},function(err,item){
-            res.send(item);
-        });
-    
-
-
-        //Item.find({name: "Colgate"},function(err,item){
-            //res.send(item+currentUser);
-        //});
     });
 
     
@@ -141,7 +125,7 @@ module.exports = function(app, passport) {
     //=====================================
 	//app.post('/newItem_to_user',function(req, res) {
     app.post('/return_to_dashboard',function(req, res) {
-        res.render('profile.ejs',{user: currentUser});
+        res.render('profile.ejs',{user: req.user});
     });
 
 //=======
