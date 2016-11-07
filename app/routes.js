@@ -1,6 +1,8 @@
 // app/routes.js
-var Item = require('../app/models/items.js');
-var UserSchema = require('../app/models/user.js')
+//var Item = require('../app/models/items.js');
+var UserSchema_complete = require('../app/models/user.js');
+var UserSchema = UserSchema_complete.User;
+var Item = UserSchema_complete.Item;
 var dialog = require('dialog');
 
 module.exports = function(app, passport) {
@@ -17,9 +19,12 @@ module.exports = function(app, passport) {
 	// =====================================
 	// show the login form
 	app.get('/login', function(req, res) {
-
-		// render the page and pass in any flash data if it exists
-		res.render('login.ejs', { message: req.flash('loginMessage') });
+        
+        //UserSchema.find({},function(err,user){
+            //res.send(user);
+        //});
+         //render the page and pass in any flash data if it exists
+        res.render('login.ejs', { message: req.flash('loginMessage') });
 	});
 
 	// process the login form
@@ -57,17 +62,13 @@ module.exports = function(app, passport) {
         });
 	});
 
-	// =====================================
-	// LOGOUT ==============================
-	// =====================================-
+// LOGOUT ==============================
 	app.get('/logout', function(req, res) {
 		req.logout();
 		res.redirect('/');
 	});
 
-	// =====================================
-	// SEARCH ===============================
-	// =====================================
+// SEARCH ===============================
 	// show the search form
 	app.get('/search', function(req, res) {
 		// render the page and pass in any flash data if it exists
@@ -91,9 +92,7 @@ module.exports = function(app, passport) {
 			});
     });
 
-	// =====================================
-	// INSERT  ===============================
-	// =====================================
+// INSERT  ===============================
 	// show the search form
 	app.get('/insert', function(req, res) {
 		// render the page and pass in any flash data if it exists
@@ -101,11 +100,17 @@ module.exports = function(app, passport) {
 	});
 
     app.post('/insert',function(req,res){
+        try { 
+            var name=req.user.local.name;
+        }
+        catch(err) {
+            name=req.user.google.name;
+        }
 
         var newItem = new Item({
             id: req.body.id,
             name: req.body.name,
-            username: req.user.name,
+            username: req.user.local.name,
             category: req.body.category,
             description: req.body.description,
 			item_status: 2
@@ -126,21 +131,12 @@ module.exports = function(app, passport) {
     });
 
     
-    //=====================================
-    //==========RETURN_TO_DASHBOARD========
-    //=====================================
-	//app.post('/newItem_to_user',function(req, res) {
+//==========RETURN_TO_DASHBOARD========
     app.post('/return_to_dashboard',function(req, res) {
         res.render('profile.ejs',{user: req.user});
     });
 
-//=======
-//=============================================
-//==============================================
-//GOOGLE
-//=====================================
-
-
+//==========GOOGLE===================
     app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
     // the callback after google has authenticated the user
     app.get('/auth/google/callback',

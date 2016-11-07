@@ -10,7 +10,8 @@ var itemSchema = new Schema({
     name        : { type: String, required: true  },
     username    : { type: String, required: true  },
     category    : { type: String, required: true  },
-    //request_notification : userSchema,
+    request_notification : String,
+
 	item_status : Number, // 0 for delete, 1 for invisible, 2 for visible
 	//category    : {
         //book         : Boolean,
@@ -58,4 +59,5 @@ userSchema.methods.getItemsByCategory = function( category ) {
     return matchingList;
 }
 // create the model for users and expose it to our app
-module.exports = mongoose.model('User', userSchema);
+module.exports = {User: mongoose.model('User', userSchema),
+                  Item: mongoose.model('Item', itemSchema)};
