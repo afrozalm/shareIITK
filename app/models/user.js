@@ -10,7 +10,9 @@ var itemSchema = new Schema({
     name        : { type: String, required: true  },
     username    : { type: String, required: true  },
     category    : { type: String, required: true  },
-    //category    : {
+    request_notification : userSchema,
+	item_status : Number, // 0 for delete, 1 for invisible, 2 for visible
+	//category    : {
         //book         : Boolean,
         //cycle        : Boolean,
         //mattress     : Boolean,

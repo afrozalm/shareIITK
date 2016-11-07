@@ -98,7 +98,8 @@ module.exports = function(app, passport) {
             name: req.body.name,
             username: req.user.name,
             category: req.body.category,
-            description: req.body.description    
+            description: req.body.description,
+			item_status: 2
         });    
 
         UserSchema.findByIdAndUpdate(
