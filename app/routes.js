@@ -62,17 +62,13 @@ module.exports = function(app, passport) {
         });
 	});
 
-	// =====================================
-	// LOGOUT ==============================
-	// =====================================-
+// LOGOUT ==============================
 	app.get('/logout', function(req, res) {
 		req.logout();
 		res.redirect('/');
 	});
 
-	// =====================================
-	// SEARCH ===============================
-	// =====================================
+// SEARCH ===============================
 	// show the search form
 	app.get('/search', function(req, res) {
 		// render the page and pass in any flash data if it exists
@@ -88,9 +84,7 @@ module.exports = function(app, passport) {
             });
     });
 
-	// =====================================
-	// INSERT  ===============================
-	// =====================================
+// INSERT  ===============================
 	// show the search form
 	app.get('/insert', function(req, res) {
 		// render the page and pass in any flash data if it exists
@@ -129,21 +123,12 @@ module.exports = function(app, passport) {
     });
 
     
-    //=====================================
-    //==========RETURN_TO_DASHBOARD========
-    //=====================================
-	//app.post('/newItem_to_user',function(req, res) {
+//==========RETURN_TO_DASHBOARD========
     app.post('/return_to_dashboard',function(req, res) {
         res.render('profile.ejs',{user: req.user});
     });
 
-//=======
-//=============================================
-//==============================================
-//GOOGLE
-//=====================================
-
-
+//==========GOOGLE===================
     app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
     // the callback after google has authenticated the user
     app.get('/auth/google/callback',
