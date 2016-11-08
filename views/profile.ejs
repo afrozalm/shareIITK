@@ -33,19 +33,25 @@
 
 
                         <strong>Name</strong>: <%= user.local.name %><br>
-                        <% for ( var i = 0; i < user.itemList.length; i++ ) { %>
-                            <li>
-                                <% if (user.itemList.request_notification != null ) { %>
-                                    <strong>
-                                        <%= user.itemList[i].name %><br>
-                                    </strong>
-                                <% } else{ %>
+                        <div>
+                            <strong>Items Shared by You </strong>: <br>
+                            <% for ( var i = 0; i < user.itemList.length; i++ ) { %>
+                                <li>
+                                    <% if (user.itemList.request_notification != null && user.itemList.item_status != 2) { %>
                                         <strong>
-                                            <%= user.itemList[i].name %>
+                                            <%= user.itemList[i].name %><br>
                                         </strong>
-                                <%}%>
-                            </li>
-                        <% } %>
+                                    <% } else{ %>
+                                            <form action="/accept" method="POST">
+                                                <div class="form-group">
+                                                    <%= user.itemList[i].name+ user.itemList[i].item_status %> <input type="hidden" class="form-control" name="itemID" value= <%= user.itemList[i]._id%> required>
+                                                    <button type="submit" class="btn btn-default btn-sm"> Accpet Request </button>
+                                                </div>
+                                            </form>
+                                    <%}%>
+                                </li>
+                            <% } %>
+                        </div>
                     </p>
 
 
@@ -55,16 +61,6 @@
 		</div>
 	</div>
 
-    <div>
-        <strong>Items Shared by You </strong>: <br>
-        <% for ( var i=0; i < user.itemList.length; i++ ) { %>
-            <li>
-                <strong>
-                    <%= user.itemList[i].name %> : <%= user.itemList[i].category %> : <%= user.itemList[i].description %> <br>
-                </strong>
-            </li>
-            <% } %>
-    </div>
 </div>
 </body>
 </html>

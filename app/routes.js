@@ -52,7 +52,7 @@ module.exports = function(app, passport) {
 	}));
 
 	// =====================================
-	// PROFILE SECTION =========================
+	// PROFILE SECTION =====================
 	// =====================================
 	// we will want this protected so you have to be logged in to visit
 	// we will use route middleware to verify this (the isLoggedIn function)
@@ -67,6 +67,30 @@ module.exports = function(app, passport) {
 		req.logout();
 		res.redirect('/');
 	});
+
+	// =====================================
+	// ACCEPT SECTION ======================
+	// =====================================
+	// this section holds the required things to be done while accepting a request
+    app.post('/accept', function(req, res){
+        console.log(req.body.itemID);
+        Item.findByIdAndUpdate(req.body.itemID,{
+            item_status : 1
+        }, function(err){
+            if (err){
+                console.log('cannout update item db');
+                throw err;
+            }
+        });
+
+        req.user.itemList.filter( function(a){
+            if ( a.id == req.body.itemID ){
+                a.item_status = 1;
+            }
+        } );
+        req.user.save();
+        res.render('profile.ejs',{user: req.user});
+    });
 
 // SEARCH ===============================
 	// show the search form
