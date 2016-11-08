@@ -76,24 +76,38 @@ module.exports = function(app, passport) {
 	});
 
     app.post('/search',function(req,res){ 
-        //UserSchema.find({
-            //'itemList.name': req.body.search},
-            //function(err, userList){
-                //if(err) throw err;
-                //res.render('searchFound.ejs', {userList: userList, user: req.user});
-            //});
+        UserSchema.find({
+            'itemList.name': req.body.search},
+            function(err, userList){
+                if(err) throw err;
+                console.log(req.body.search);
 
-		var query = UserSchema.find({'itemList.name' : req.body.search});
-		query.select("itemList").populate("itemList");
-		query.exec(function(err,results){
-			console.log(results);
-			var itemList = results.map(function(r){	res.render('searchFound.ejs', {userList: r.itemList, user: req.user});});
+                var send_user_list = [];
+                var send_item_list = [];
+                for(var j=0; j < userList.length;j++){
+                    var u=userList[j];
+                    for(var item_cnt = 0; item_cnt < u.itemList.length; item_cnt++){
+                        var i = u.itemList[item_cnt];
+                        if(i.name == req.body.search){
+                            send_user_list.push(u);
+                            send_item_list.push(i);
+                        }
+                    }
+                }
+
+                res.render('searchFound.ejs', {userList: send_user_list, itemList: send_item_list, user: req.user});
+            });
+
+		//var query = UserSchema.find({'itemList.name' : req.body.search});
+		//query.select("itemList").populate("itemList");
+		//query.exec(function(err,results){
+			//console.log(results);
+			//var itemList = results.map(function(r){	res.render('searchFound.ejs', {userList: r.itemList, user: req.user});});
 		//console.log(itemList);
-			});
+			//});
     });
 
 // INSERT  ===============================
-	// show the search form
 	app.get('/insert', function(req, res) {
 		// render the page and pass in any flash data if it exists
         res.render('insert.ejs', { message: req.flash('loginMessage'), user: req.user });
@@ -130,7 +144,20 @@ module.exports = function(app, passport) {
         );
     });
 
-    
+//=========REQUEST=====================
+    app.post('/request', function(req, res ){
+        var user_id: req.body.reqbtn;
+        UserSchema.findByIdAndUpdate{user_id,
+            {
+                request_notification: user_id 
+            }
+        }
+        res.render("tmp.ejs",{user_id: req.body.reqbtn});
+        //res.send(req.called_from_item)
+        //res.render("profile.ejs",{user: req.user});
+    });
+
+
 //==========RETURN_TO_DASHBOARD========
     app.post('/return_to_dashboard',function(req, res) {
         res.render('profile.ejs',{user: req.user});

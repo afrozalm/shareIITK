@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 var Schema   = mongoose.Schema;
+//var user = require('./user.js')
 
 var itemSchema = new Schema({
     //id          : Number,
@@ -39,24 +40,24 @@ var userSchema = new Schema({
 
 // methods ======================
 // generating a hash
-userSchema.methods.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-};
+//userSchema.methods.generateHash = function(password) {
+    //return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+//};
 
-// checking if password is valid
-userSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.local.password);
-};
+//// checking if password is valid
+//userSchema.methods.validPassword = function(password) {
+    //return bcrypt.compareSync(password, this.local.password);
+//};
 
-userSchema.methods.getItemsByCategory = function( category ) {
-    matchingList = [];
-    for ( var i = 0; i < this.itemList.length; i++ ){
-        if ( category.localCompare( this.itemList[i].category ) == 0 )
-            matchingList.push(this.itemList[i]);
-    }
+//userSchema.methods.getItemsByCategory = function( category ) {
+    //matchingList = [];
+    //for ( var i = 0; i < this.itemList.length; i++ ){
+        //if ( category.localCompare( this.itemList[i].category ) == 0 )
+            //matchingList.push(this.itemList[i]);
+    //}
 
-    return matchingList;
-}
+    //return matchingList;
+//}
 // create the model for users and expose it to our app
 module.exports = {User: mongoose.model('User', userSchema),
                   Item: mongoose.model('Item', itemSchema)};

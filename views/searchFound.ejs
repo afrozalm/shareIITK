@@ -8,6 +8,8 @@
 	<style>
 		body 		{ padding-top:80px; word-wrap:break-word; }
 	</style>
+    
+
 </head>
 <body>
 <div class="container">
@@ -18,12 +20,19 @@
 
 	<div class="row">
 
-
+    
     <div>
         <% for ( var i=0; i < userList.length; i++ ) { %>
             <li>
                 <strong>
-                    <%= userList[i].name %><a href="/request" class="btn btn-default"><span class="fa fa-anchor"></span> Request</a> <br>
+                    <font color="red"><%= userList[i].local.name %> <%= userList[i].google.name %></font> <%= userList[i].local.email %> <%= userList[i].google.email %> has item <font color="red"><%= itemList[i].name %> </font> 
+                    
+                    <form action='/request' method='post'>  
+                    <div class="form-group">
+                    <input type="hidden" name='reqbtn' value='<%= userList[i].id %>'><button class="btn btn-default" type="submit">  Request  </button>
+                    </div>
+                    </form>
+
                 </strong>
             </li>
             <% } %>
@@ -31,3 +40,4 @@
 </div>
 </body>
 </html>
+                  <a href="/request" class="btn btn-default" name = i ><span class="fa fa-anchor">   </span> Request </a><br>
