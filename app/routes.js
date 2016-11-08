@@ -100,8 +100,10 @@ module.exports = function(app, passport) {
 	});
 
     app.post('/search',function(req,res){ 
-		Item.find({
-			'name': req.body.search},
+			var keyword = require('string');
+			keyword = req.body.search;
+			Item.find({
+			'name': { '$regex' : new RegExp(keyword, "i")}},
 			function(err, itemList){
 				console.log("Printing");
 				if(err) throw err;
