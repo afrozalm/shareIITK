@@ -37,18 +37,21 @@
                             <strong>Items Shared by You </strong>: <br>
                             <% for ( var i = 0; i < user.itemList.length; i++ ) { %>
                                 <li>
-                                    <% if (user.itemList.request_notification != null && user.itemList.item_status != 2) { %>
-                                        <strong>
-                                            <%= user.itemList[i].name %><br>
-                                        </strong>
-                                    <% } else{ %>
-                                            <form action="/accept" method="POST">
-                                                <div class="form-group">
-                                                    <%= user.itemList[i].name+ user.itemList[i].item_status %> <input type="hidden" class="form-control" name="itemID" value= <%= user.itemList[i]._id%> required>
-                                                    <button type="submit" class="btn btn-default btn-sm"> Accpet Request </button>
-                                                </div>
-                                            </form>
-                                    <%}%>
+                                    <% console.log( user.itemList[i].name, user.itemList[i].item_status, user.itemList[i].request_notification ) %>
+                                    <% if (user.itemList[i].item_status == 2) {%>
+                                        <% if (user.itemList[i].request_notification == null) { %>
+                                            <strong>
+                                                <%= user.itemList[i].name %><br>
+                                            </strong>
+                                        <% } else{ %>
+                                                <form action="/accept" method="POST">
+                                                    <div class="form-group">
+                                                        <%= user.itemList[i].name %> <input type="hidden" class="form-control" name="itemID" value= <%= user.itemList[i]._id%> required>
+                                                        <button type="submit" class="btn btn-default btn-sm"> Accpet Request </button>
+                                                    </div>
+                                                </form>
+                                        <% } %>
+                                    <% } %>
                                 </li>
                             <% } %>
                         </div>
