@@ -22,14 +22,14 @@
 
     
     <div>
-        <% for ( var i=0; i < userList.length; i++ ) { %>
+        <% for ( var i=0; i < itemList.length; i++ ) { %>
             <li>
                 <strong>
-                    <font color="red"><%= userList[i].local.name %> <%= userList[i].google.name %></font> <%= userList[i].local.email %> <%= userList[i].google.email %> has item <font color="red"><%= itemList[i].name %> </font> 
+                    <font color="red"><%= itemList[i].name %> has item <font color="red"><%= itemList[i].name %> </font> 
                     
                     <form action='/request' method='post'>  
                     <div class="form-group">
-                    <input type="hidden" name='reqbtn' value='<%= userList[i].id %>'><button class="btn btn-default" type="submit">  Request  </button>
+                    <input type="hidden" name='reqbtn' value='<%= itemList[i].username %>'><button class="btn btn-default" type="submit">  Request  </button>
                     </div>
                     </form>
 
@@ -40,4 +40,3 @@
 </div>
 </body>
 </html>
-                  <a href="/request" class="btn btn-default" name = i ><span class="fa fa-anchor">   </span> Request </a><br>

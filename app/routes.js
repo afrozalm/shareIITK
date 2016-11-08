@@ -76,27 +76,14 @@ module.exports = function(app, passport) {
 	});
 
     app.post('/search',function(req,res){ 
-        UserSchema.find({
-            'itemList.name': req.body.search},
-            function(err, userList){
-                if(err) throw err;
-                console.log(req.body.search);
-
-                var send_user_list = [];
-                var send_item_list = [];
-                for(var j=0; j < userList.length;j++){
-                    var u=userList[j];
-                    for(var item_cnt = 0; item_cnt < u.itemList.length; item_cnt++){
-                        var i = u.itemList[item_cnt];
-                        if(i.name == req.body.search){
-                            send_user_list.push(u);
-                            send_item_list.push(i);
-                        }
-                    }
-                }
-
-                res.render('searchFound.ejs', {userList: send_user_list, itemList: send_item_list, user: req.user});
-            });
+		Item.find({
+			'name': req.body.search},
+			function(err, itemList){
+				console.log("Printing");
+				if(err) throw err;
+				//console.log(itemList);
+				res.render('searchFound.ejs', {itemList: itemList, user: req.user});
+			});
 
 		//var query = UserSchema.find({'itemList.name' : req.body.search});
 		//query.select("itemList").populate("itemList");
@@ -105,7 +92,7 @@ module.exports = function(app, passport) {
 			//var itemList = results.map(function(r){	res.render('searchFound.ejs', {userList: r.itemList, user: req.user});});
 		//console.log(itemList);
 			//});
-    });
+});
 
 // INSERT  ===============================
 	app.get('/insert', function(req, res) {
@@ -122,14 +109,13 @@ module.exports = function(app, passport) {
         }
 
         var newItem = new Item({
-            id: req.body.id,
             name: req.body.name,
-            username: req.user.local.name,
-            category: req.body.category,
+            username: req.user._id,
+			category: req.body.category,
             description: req.body.description,
 			item_status: 2
-        });    
-
+        });   
+		newItem.save();
         UserSchema.findByIdAndUpdate(
                 req.user._id,
                 {$push: {
@@ -146,12 +132,12 @@ module.exports = function(app, passport) {
 
 //=========REQUEST=====================
     app.post('/request', function(req, res ){
-        var user_id: req.body.reqbtn;
-        UserSchema.findByIdAndUpdate{user_id,
+        var user_id = req.body.reqbtn;
+        UserSchema.findByIdAndUpdate(user_id,
             {
                 request_notification: user_id 
             }
-        }
+            );
         res.render("tmp.ejs",{user_id: req.body.reqbtn});
         //res.send(req.called_from_item)
         //res.render("profile.ejs",{user: req.user});
@@ -163,6 +149,15 @@ module.exports = function(app, passport) {
         res.render('profile.ejs',{user: req.user});
     });
 
+//=========Delete all users=========
+    app.get('/remove_content',function(req,res){
+        UserSchema.remove({},function(err){
+           if(err) throw err; 
+        });
+        Item.remove({},function(err){
+            if(err) throw err;
+        });
+    });
 //==========GOOGLE===================
     app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
     // the callback after google has authenticated the user

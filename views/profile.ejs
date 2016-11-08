@@ -35,9 +35,15 @@
                         <strong>Name</strong>: <%= user.local.name %><br>
                         <% for ( var i = 0; i < user.itemList.length; i++ ) { %>
                             <li>
-                                <strong>
-                                <%= user.itemList[i].name %><br>
-                                </strong>
+                                <% if (user.itemList.request_notification != null ) { %>
+                                    <strong>
+                                        <%= user.itemList[i].name %><br>
+                                    </strong>
+                                <% } else{ %>
+                                        <strong>
+                                            <%= user.itemList[i].name %>
+                                        </strong>
+                                <%}%>
                             </li>
                         <% } %>
                     </p>
