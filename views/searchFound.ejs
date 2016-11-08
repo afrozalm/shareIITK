@@ -25,18 +25,16 @@
         <% for ( var i=0; i < itemList.length; i++ ) { %>
             <li>
                 <strong>
-                    <font color="red"><%= itemList[i].name %> has item <font color="red"><%= itemList[i].name %> </font> 
-                    
-                    <form action='/request' method='post'>  
+                   <form action='/request' method='post'>  
                     <div class="form-group">
+
                     
                     <input type="hidden" name='request_button_ownerid' value='<%= itemList[i].username %>'>
                     <input type="hidden" name='request_button_itemid' value='<%= itemList[i]._id %>'>
                     <button class="btn btn-default" type="submit">  Request  </button>
-                    
+                
                     </div>
                     </form>
-
                 </strong>
             </li>
             <% } %>
