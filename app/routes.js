@@ -181,6 +181,7 @@ module.exports = function(app, passport) {
         Item.remove({},function(err){
             if(err) throw err;
         });
+        res.render( 'index.ejs' );
     });
 //==========GOOGLE===================
     app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
