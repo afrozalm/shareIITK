@@ -156,15 +156,85 @@ module.exports = function(app, passport) {
 
 //=========REQUEST=====================
     app.post('/request', function(req, res ){
-        var user_id = req.body.reqbtn;
-        UserSchema.findByIdAndUpdate(user_id,
-            {
-                request_notification: user_id 
+        var owner_id = req.body.request_button_ownerid;
+        var item_id = req.body.request_button_itemid;
+    
+        Item.update(item_id,{
+            request_notification: req.user._id  
+        });
+       
+        UserSchema.findById(owner_id,function(err,owner){
+            console.log(owner);
+            owner.local.name = "MUUUUNNOTOT";
+            owner.save();
+
+            for(var i=0;i<owner.itemList.length;i++){
+                if(owner.itemList[i]._id==item_id){
+                    owner.itemList[i].request_notification=owner._id;
+                    owner.itemList[i].save();
+                    owner.save();
+                    console.log(owner.itemList[i].request_notification)
+                }
             }
-            );
-        res.render("tmp.ejs",{user_id: req.body.reqbtn});
-        //res.send(req.called_from_item)
-        //res.render("profile.ejs",{user: req.user});
+            res.render("tmp.ejs",{user: owner, owner_id: "@34"});
+        });
+
+        //Item.findById(item_id,function(err,item_chan){
+            //if(err) throw err;
+            //res.render("tmp.ejs", {user: item_chan, owner_id: "1234"});
+        //});
+
+        //UserSchema.findById(owner_id, function(err, owner){
+            //if(err) throw err;
+            //var flag=0;
+            //
+            
+            //UserSchema.update( owner_id ,
+                    //{local:
+                        //{name: "MUUUUUUNNNNNNNNOOOOOOOOOOOTTTTTTTTTTT"}},
+                    //function(err,owner){
+                        //console.log(err);
+                        //console.log(owner);
+                    //}
+            //);
+
+            //UserSchema.update({_id: owner_id, 'itemList._id': item_id},
+                    //{ $set: {'itemList.$.request_notification': owner_id}}
+            //);
+            
+            //UserSchema.findById(owner_id, function(err,owner){
+                //console.log(owner);
+                //res.render("tmp.ejs",{user: owner, owner_id: owner_id});
+            //});
+            //for(var i=0; i<owner.itemList.length;i++){
+                //if(err) throw err;
+
+                //if(owner.itemList[i]._id==item_id){
+                    //owner.itemList[i].request_notification = "FOUND DINALLY";
+                    //owner.itemList[i].markModified('request_notification');
+                    //owner.itemList[i].save();
+
+                    //owner.markModified('itemList');
+                    //owner.save();
+                    
+                    //res.render("tmp.ejs",{user: owner,owner_id: "987654321"});
+                    //flag=1;
+                //}
+            //}
+            //if(flag==0){
+                    //res.render("tmp.ejs",{user: "NULL_USER",owner_id: "000"});
+            //}
+        //});
+        //UserSchema.findByIdAndUpdate(owner_id,
+            //{$push:{
+            //request_notification: req.user._id
+            //}}
+        //);
+
+        //UserSchema.findById(owner_id,function(err,chan_user){
+            //if (err) throw err;
+            //res.render("tmp.ejs",{user: chan_user, owner_id: req.body.reqbtn});
+        //})
     });
 
 

@@ -19,6 +19,7 @@ var itemSchema = new Schema({
     //},
     description : String
 });
+
 // define the schema for our user model
 var userSchema = new Schema({
 
