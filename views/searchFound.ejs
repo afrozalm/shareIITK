@@ -27,9 +27,12 @@
     
     <div>
         <% for ( var i=0; i < itemList.length; i++ ) { %>
-           <% if(!(itemList[i].username.toString() == user._id.toString())) {%>
+           <% if(itemList[i].request_notification == null) {%>
+		    <% if(itemList[i].item_status == 2) {%>
+		   <% if(user._id.toString().localeCompare(itemList[i].username) !=0) {%>
 			<li>
 				<strong>
+				<% console.log("username"  +" " +itemList[i].username+ "    "+user._id)%>
                    <form action='/request' method='post'>  
                     <div class="form-group">
 
@@ -43,6 +46,8 @@
                 </strong>
             </li>
 			<%}%>
+			<% }%>
+            <% } %>
             <% } %>
     </div>
 </div>

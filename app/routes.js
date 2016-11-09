@@ -84,7 +84,7 @@ module.exports = function(app, passport) {
     app.post('/accept', function(req, res){
         console.log(req.body.itemID);
         Item.findByIdAndUpdate(req.body.itemID,{
-            item_status : 1
+            item_status : 0
         }, function(err){
             if (err){
                 console.log('cannout update item db');
@@ -94,7 +94,7 @@ module.exports = function(app, passport) {
 
         req.user.itemList.filter( function(a){
             if ( a.id == req.body.itemID ){
-                a.item_status = 1;
+                a.item_status = 0;
                 a.save();
             }
         } );
@@ -186,24 +186,59 @@ module.exports = function(app, passport) {
                 }
         );
     });
+//=========REJECT=====================
+    app.post('/reject', function(req, res ){
+		var owner_id = req.body.request_button_ownerid;
+		console.log("mera user");
+        console.log(req.user._id);
+		var item_id = req.body.request_button_itemid;
+        Item.update(item_id,{
+            request_notification: null, 
+			item_status : 2
+        });
+       
+        UserSchema.findById(req.user._id,function(err,owner){
+
+            for(var i=0;i<owner.itemList.length;i++){
+                if(owner.itemList[i]._id==item_id){
+                    owner.itemList[i].request_notification = null;
+                    owner.itemList[i].item_status = 2;
+					owner.itemList[i].save();
+                    owner.save();
+					console.log( "Here ------>" + owner.itemList[i].request_notification);
+                }
+            }
+          	res.redirect('/profile');
+        });
+    });
+
 
 //=========REQUEST=====================
     app.post('/request', function(req, res ){
         var owner_id = req.body.request_button_ownerid;
         var item_id = req.body.request_button_itemid;
-    
-        Item.update(item_id,{
-            request_notification: req.user._id  
-        });
-       
+			 
+		Item.findById(item_id,function(err,item){
+			item.request_notification = req.user._id;
+			item_status = 1;
+			console.log("HERE");
+			item.save();
+		});
+        //Item.update(item_id,{
+            //request_notification: req.user._id,
+			//item_status: 1
+        //});
+	
+
         UserSchema.findById(owner_id,function(err,owner){
 
             for(var i=0;i<owner.itemList.length;i++){
                 if(owner.itemList[i]._id==item_id){
-                    owner.itemList[i].request_notification=owner._id;
+                    owner.itemList[i].request_notification=req.user._id;
+					owner.itemList[i].item_status = 1;
                     owner.itemList[i].save();
                     owner.save();
-                    console.log(owner.itemList[i].request_notification)
+                    console.log(owner.itemList[i].item_status);
                 }
             }
             res.render("tmp.ejs",{user: owner, owner_id: "@34"});
