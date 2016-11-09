@@ -108,7 +108,12 @@ module.exports = function(app, passport) {
     app.post('/delete', function(req, res ){
         var owner_id = req.body.request_button_ownerid;
         var item_id = req.body.request_button_itemid;
-    
+    	Item.findByIdAndRemove(item_id,function(err,item){
+			if(err)
+				console.log(err);
+			//console.log("HERE2");
+		});
+
         Item.findByIdAndRemove(item_id);
 		UserSchema.findOneAndUpdate({'_id' : owner_id},
                     {$pull: {itemList: {'_id': item_id}}},
