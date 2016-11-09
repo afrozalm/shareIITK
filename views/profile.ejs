@@ -33,23 +33,34 @@
 
                         <strong>Name</strong>: <%= user.local.name %><br>
                         <div>
-                            <strong>Items Shared by You </strong>: <br>
+                            <strong>Items Shared by You </strong> 
                             <% for ( var i = 0; i < user.itemList.length; i++ ) { %>
                                     <% console.log( user.itemList[i].name, user.itemList[i].item_status, user.itemList[i].request_notification ) %>
 								<% if (user.itemList[i].item_status == 2) {%>
 									<li>
-                                        <% if (user.itemList[i].request_notification == null) { %>
-                                            <strong>
-                                                <%= user.itemList[i].name %><br>
-                                            </strong>
-                                        <% } else{ %>
-                                                <form action="/accept" method="POST">
-                                                    <div class="form-group">
-                                                        <%= user.itemList[i].name %> <input type="hidden" class="form-control" name="itemID" value="<%= user.itemList[i]._id%>"required>
-                                                        <button type="submit" class="btn btn-default btn-sm"> Accept Request </button>
-                                                    </div>
-                                                </form>
-                                        <% } %>
+										<strong>
+											<%= user.itemList[i].name %>
+										</strong>
+												<form action="/delete" method="POST">
+														<div class="form-group">
+															<input type="hidden" class="form-control" name="itemID" value="<%= user.itemList[i]._id%>"required>
+															<button type="submit" class="btn btn-default btn-sm"> Delete Item </button>
+														</div>
+													</form>
+										<% if (user.itemList[i].request_notification != null) { %>
+													<form action="/accept" method="POST">
+														<div class="form-group">
+															<input type="hidden" class="form-control" name="itemID" value="<%= user.itemList[i]._id%>"required>
+															<button type="submit" class="btn btn-default btn-sm"> Accept Request </button>
+														</div>
+													</form> 
+													<form action="/reject" method="POST">
+														<div class="form-group">
+															<input type="hidden" class="form-control" name="itemID" value="<%= user.itemList[i]._id%>"required>
+															<button type="submit" class="btn btn-default btn-sm"> Reject Request </button>
+														</div>
+													</form>
+												<% } %>
 									</li>
 								<% } %>
                             <% } %>
