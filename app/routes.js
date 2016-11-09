@@ -101,6 +101,24 @@ module.exports = function(app, passport) {
         req.user.save();
         res.render('profile.ejs',{user: req.user});
     });
+	// =====================================
+	// DELETE SECTION ======================
+	// =====================================
+	// this section holds the required things to be done while accepting a request
+    app.post('/delete', function(req, res ){
+        var owner_id = req.body.request_button_ownerid;
+        var item_id = req.body.request_button_itemid;
+    
+        Item.findByIdAndRemove(item_id);
+		UserSchema.findOneAndUpdate({'_id' : owner_id},
+                    {$pull: {itemList: {'_id': item_id}}},
+                    {new: true},
+					function(err, a) {
+						if (err)
+							console.log(err);
+					});	
+		res.redirect('/profile');
+    });
 
 // SEARCH ===============================
 	// show the search form
