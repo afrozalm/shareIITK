@@ -201,10 +201,10 @@ module.exports = function(app, passport) {
         UserSchema.findById(req.user._id,function(err, user){
             if(err) 
                 throw err;
-            if(user.local.name != null)
+            //if(user.local.name != null)
                 user.local.name=req.body.name;
-            else
-                user.google.name=req.body.name;
+            //else
+                //user.google.name=req.body.name;
             user.save();
             res.render('profile.ejs',{user: user});
         });
