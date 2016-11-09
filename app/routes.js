@@ -86,6 +86,7 @@ module.exports = function(app, passport) {
         req.user.itemList.filter( function(a){
             if ( a.id == req.body.itemID ){
                 a.item_status = 1;
+                a.save();
             }
         } );
         req.user.save();
