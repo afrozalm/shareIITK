@@ -44,7 +44,7 @@
                                         <% } else{ %>
                                                 <form action="/accept" method="POST">
                                                     <div class="form-group">
-                                                        <%= user.itemList[i].name %> <input type="hidden" class="form-control" name="itemID" value="<%= user.itemList[i]._id%>"required>
+                                                        <%= user.itemList[i].name %> <input type="hidden" name="itemID" value="<%= user.itemList[i]._id%>"required>
                                                         <button type="submit" class="btn btn-default btn-sm"> Accpet Request </button>
                                                     </div>
                                                 </form>

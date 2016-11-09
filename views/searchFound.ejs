@@ -29,7 +29,7 @@
                    <form action='/request' method='post'>  
                     <div class="form-group">
 
-                    <%= itemList[i].name + itemList[i].username + user._id %> 
+                    <%= itemList[i].name %> 
                     <input type="hidden" name='request_button_ownerid' value='<%= itemList[i].username %>'>
                     <input type="hidden" name='request_button_itemid' value='<%= itemList[i]._id %>'>
                     <button class="btn btn-default" type="submit">  Request  </button>
