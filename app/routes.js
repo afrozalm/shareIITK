@@ -194,13 +194,19 @@ module.exports = function(app, passport) {
 //=========REJECT=====================
     app.post('/reject', function(req, res ){
 		var owner_id = req.body.request_button_ownerid;
-		console.log("mera user");
-        console.log(req.user._id);
+		//console.log("mera user");
+        //console.log(req.user._id);
 		var item_id = req.body.request_button_itemid;
-        Item.update(item_id,{
-            request_notification: null, 
-			item_status : 2
-        });
+       Item.findById(item_id,function(err,item){
+		   
+			//console.log("HERE"+ item_id);
+		   if(err)
+				console.log(err);
+			item.request_notification = null;
+			item_status = 2;
+			item.save();
+		});
+
        
         UserSchema.findById(req.user._id,function(err,owner){
 
