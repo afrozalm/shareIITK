@@ -103,15 +103,21 @@ module.exports = function(app, passport) {
     app.post('/search',function(req,res){ 
 			var keyword = require('string');
 			keyword = req.body.search;
-			Item.find({
+			Item.find().or([{
 			'name': { '$regex' : new RegExp(keyword, "i")}},
+			{'description' : {'$regex' : new RegExp(keyword, "i")}}]).exec(
+
 			function(err, itemList){
 				console.log("Printing");
 				if(err) throw err;
-				//console.log(itemList);
+				console.log(itemList);
+				console.log(typeof itemList[0].username.toString());
+				console.log( typeof req.user._id.toString() );
 				res.render('searchFound.ejs', {itemList: itemList, user: req.user});
 			});
-
+//app.User.find().or([{ 'firstName': { $regex: re }}, { 'lastName': { $regex: re }}]).sort('title', 1).exec(function(err, users) {
+    //res.json(JSON.stringify(users));
+//});
 		//var query = UserSchema.find({'itemList.name' : req.body.search});
 		//query.select("itemList").populate("itemList");
 		//query.exec(function(err,results){

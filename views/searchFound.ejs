@@ -23,12 +23,13 @@
     
     <div>
         <% for ( var i=0; i < itemList.length; i++ ) { %>
-            <li>
-                <strong>
+           <% if(!(itemList[i].username.toString() == user._id.toString())) {%>
+			<li>
+				<strong>
                    <form action='/request' method='post'>  
                     <div class="form-group">
 
-                    <%= itemList[i].name %> 
+                    <%= itemList[i].name + itemList[i].username + user._id %> 
                     <input type="hidden" name='request_button_ownerid' value='<%= itemList[i].username %>'>
                     <input type="hidden" name='request_button_itemid' value='<%= itemList[i]._id %>'>
                     <button class="btn btn-default" type="submit">  Request  </button>
@@ -37,6 +38,7 @@
                     </form>
                 </strong>
             </li>
+			<%}%>
             <% } %>
     </div>
 </div>
