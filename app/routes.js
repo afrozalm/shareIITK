@@ -190,66 +190,25 @@ module.exports = function(app, passport) {
             }
             res.render("tmp.ejs",{user: owner, owner_id: "@34"});
         });
-
-        //Item.findById(item_id,function(err,item_chan){
-            //if(err) throw err;
-            //res.render("tmp.ejs", {user: item_chan, owner_id: "1234"});
-        //});
-
-        //UserSchema.findById(owner_id, function(err, owner){
-            //if(err) throw err;
-            //var flag=0;
-            //
-            
-            //UserSchema.update( owner_id ,
-                    //{local:
-                        //{name: "MUUUUUUNNNNNNNNOOOOOOOOOOOTTTTTTTTTTT"}},
-                    //function(err,owner){
-                        //console.log(err);
-                        //console.log(owner);
-                    //}
-            //);
-
-            //UserSchema.update({_id: owner_id, 'itemList._id': item_id},
-                    //{ $set: {'itemList.$.request_notification': owner_id}}
-            //);
-            
-            //UserSchema.findById(owner_id, function(err,owner){
-                //console.log(owner);
-                //res.render("tmp.ejs",{user: owner, owner_id: owner_id});
-            //});
-            //for(var i=0; i<owner.itemList.length;i++){
-                //if(err) throw err;
-
-                //if(owner.itemList[i]._id==item_id){
-                    //owner.itemList[i].request_notification = "FOUND DINALLY";
-                    //owner.itemList[i].markModified('request_notification');
-                    //owner.itemList[i].save();
-
-                    //owner.markModified('itemList');
-                    //owner.save();
-                    
-                    //res.render("tmp.ejs",{user: owner,owner_id: "987654321"});
-                    //flag=1;
-                //}
-            //}
-            //if(flag==0){
-                    //res.render("tmp.ejs",{user: "NULL_USER",owner_id: "000"});
-            //}
-        //});
-        //UserSchema.findByIdAndUpdate(owner_id,
-            //{$push:{
-            //request_notification: req.user._id
-            //}}
-        //);
-
-        //UserSchema.findById(owner_id,function(err,chan_user){
-            //if (err) throw err;
-            //res.render("tmp.ejs",{user: chan_user, owner_id: req.body.reqbtn});
-        //})
     });
 
+//=========update==================
+    app.get('/update', function(req,res){
+        res.render('update.ejs',{user: req.user});
+    });
 
+    app.post('/update', function(req,res){
+        UserSchema.findById(req.user._id,function(err, user){
+            if(err) 
+                throw err;
+            if(user.local.name != null)
+                user.local.name=req.body.name;
+            else
+                user.google.name=req.body.name;
+            user.save();
+            res.render('profile.ejs',{user: user});
+        });
+    });
 //=========Delete all users=========
     app.get('/remove_content',function(req,res){
         UserSchema.remove({},function(err){
