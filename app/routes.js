@@ -119,9 +119,6 @@ module.exports = function(app, passport) {
 			function(err, itemList){
 				console.log("Printing");
 				if(err) throw err;
-				console.log(itemList);
-				console.log(typeof itemList[0].username.toString());
-				console.log( typeof req.user._id.toString() );
 				res.render('searchFound.ejs', {itemList: itemList, user: req.user});
 			});
 //app.User.find().or([{ 'firstName': { $regex: re }}, { 'lastName': { $regex: re }}]).sort('title', 1).exec(function(err, users) {
