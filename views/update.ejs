@@ -1,0 +1,34 @@
+<!-- views/signup.ejs -->
+<!doctype html>
+<html>
+<head>
+<title>shareIITK-update_profile</title>
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+<style>
+body 		{ padding-top:80px; }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="col-sm-6 col-sm-offset-3">
+
+<h1><span class="fa fa-sign-in"></span> Edit your Profile</h1>
+
+<!-- LOGIN FORM -->
+<form action="/update" method="post">
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" name="name" required>
+        </div>
+            <div class="form-group">
+                <label>Email</label>
+            <font color='grey'><%= user.local.email %><%= user.google.email %></font>
+        </div>
+    <button type="submit" class="btn btn-warning btn-lg">Update</button>
+</form>
+<hr>
+</div>
+</div>
+</body>
+</html>
