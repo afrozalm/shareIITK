@@ -15,7 +15,11 @@
 <div class="container">
 
 	<div class="page-header text-center">
-		<h1><span class="fa fa-anchor"></span> The following items matched your search!</h1>
+        <% if ( itemList.length == 0 ) { %>
+            <h1><span class="fa fa-anchor"></span> No Matches Found!</h1>
+        <% } else{ %>
+            <h1><span class="fa fa-anchor"></span> The following items matched your search!</h1>
+        <% }%>
 	</div>
 
 	<div class="row">
@@ -29,7 +33,7 @@
                    <form action='/request' method='post'>  
                     <div class="form-group">
 
-                    <%= itemList[i].name + itemList[i].username + user._id %> 
+                    <%= itemList[i].name %> 
                     <input type="hidden" name='request_button_ownerid' value='<%= itemList[i].username %>'>
                     <input type="hidden" name='request_button_itemid' value='<%= itemList[i]._id %>'>
                     <button class="btn btn-default" type="submit">  Request  </button>

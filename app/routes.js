@@ -11,30 +11,36 @@ module.exports = function(app, passport) {
 	// HOME PAGE (with login links) ========
 	// =====================================
 	app.get('/', function(req, res) {
-		res.render('index.ejs'); // load the index.ejs file
+        if ( req.user == null ){
+            res.render('index.ejs', { message: req.flash('loginMessage'), home : 1 });
+        }
+        else
+            res.render('profile.ejs', { user : req.user });
 	});
 
 	// =====================================
 	// LOGIN ===============================
 	// =====================================
 	// show the login form
-	app.get('/login', function(req, res) {
+	//app.get('/login', function(req, res) {
         
-        //UserSchema.find({},function(err,user){
-            //res.send(user);
-        //});
          //render the page and pass in any flash data if it exists
-        res.render('login.ejs', { message: req.flash('loginMessage') });
-	});
+        //res.render('login.ejs', { message: req.flash('loginMessage') });
+	//});
 
 	// process the login form
-	app.post('/login', passport.authenticate('local-login', {
-		successRedirect : '/profile', // redirect to the secure profile section
-		failureRedirect : '/login', // redirect back to the signup page if there is an error
-		failureFlash : true // allow flash messages
-	}));
+    app.post('/', function(req, res, next){
+        if ( req.body.action == 0 )
+            res.render('index.ejs', { message: req.flash('loginMessage'), home : 0 });
+    });
 
-	// =====================================
+    app.post('/login', passport.authenticate('local-login', {
+            successRedirect : '/', // redirect to the secure profile section
+            failureRedirect : '/', // redirect back to the signup page if there is an error
+            failureFlash : true // allow flash messages
+    }));
+
+    // =====================================
 	// SIGNUP ==============================
 	// =====================================
 	// show the signup form
@@ -57,6 +63,9 @@ module.exports = function(app, passport) {
 	// we will want this protected so you have to be logged in to visit
 	// we will use route middleware to verify this (the isLoggedIn function)
 	app.get('/profile', isLoggedIn, function(req, res) {
+        if ( req.user == null ){
+            res.render('login.ejs', { message: req.flash('loginMessage') });
+        }
         res.render('profile.ejs', {
             user : req.user // get the user out of session and pass to template
         });
@@ -110,9 +119,6 @@ module.exports = function(app, passport) {
 			function(err, itemList){
 				console.log("Printing");
 				if(err) throw err;
-				console.log(itemList);
-				console.log(typeof itemList[0].username.toString());
-				console.log( typeof req.user._id.toString() );
 				res.render('searchFound.ejs', {itemList: itemList, user: req.user});
 			});
 //app.User.find().or([{ 'firstName': { $regex: re }}, { 'lastName': { $regex: re }}]).sort('title', 1).exec(function(err, users) {
@@ -173,9 +179,6 @@ module.exports = function(app, passport) {
         });
        
         UserSchema.findById(owner_id,function(err,owner){
-            console.log(owner);
-            owner.local.name = "MUUUUNNOTOT";
-            owner.save();
 
             for(var i=0;i<owner.itemList.length;i++){
                 if(owner.itemList[i]._id==item_id){
@@ -187,71 +190,25 @@ module.exports = function(app, passport) {
             }
             res.render("tmp.ejs",{user: owner, owner_id: "@34"});
         });
-
-        //Item.findById(item_id,function(err,item_chan){
-            //if(err) throw err;
-            //res.render("tmp.ejs", {user: item_chan, owner_id: "1234"});
-        //});
-
-        //UserSchema.findById(owner_id, function(err, owner){
-            //if(err) throw err;
-            //var flag=0;
-            //
-            
-            //UserSchema.update( owner_id ,
-                    //{local:
-                        //{name: "MUUUUUUNNNNNNNNOOOOOOOOOOOTTTTTTTTTTT"}},
-                    //function(err,owner){
-                        //console.log(err);
-                        //console.log(owner);
-                    //}
-            //);
-
-            //UserSchema.update({_id: owner_id, 'itemList._id': item_id},
-                    //{ $set: {'itemList.$.request_notification': owner_id}}
-            //);
-            
-            //UserSchema.findById(owner_id, function(err,owner){
-                //console.log(owner);
-                //res.render("tmp.ejs",{user: owner, owner_id: owner_id});
-            //});
-            //for(var i=0; i<owner.itemList.length;i++){
-                //if(err) throw err;
-
-                //if(owner.itemList[i]._id==item_id){
-                    //owner.itemList[i].request_notification = "FOUND DINALLY";
-                    //owner.itemList[i].markModified('request_notification');
-                    //owner.itemList[i].save();
-
-                    //owner.markModified('itemList');
-                    //owner.save();
-                    
-                    //res.render("tmp.ejs",{user: owner,owner_id: "987654321"});
-                    //flag=1;
-                //}
-            //}
-            //if(flag==0){
-                    //res.render("tmp.ejs",{user: "NULL_USER",owner_id: "000"});
-            //}
-        //});
-        //UserSchema.findByIdAndUpdate(owner_id,
-            //{$push:{
-            //request_notification: req.user._id
-            //}}
-        //);
-
-        //UserSchema.findById(owner_id,function(err,chan_user){
-            //if (err) throw err;
-            //res.render("tmp.ejs",{user: chan_user, owner_id: req.body.reqbtn});
-        //})
     });
 
-
-//==========RETURN_TO_DASHBOARD========
-    app.post('/return_to_dashboard',function(req, res) {
-        res.render('profile.ejs',{user: req.user});
+//=========update==================
+    app.get('/update', function(req,res){
+        res.render('update.ejs',{user: req.user});
     });
 
+    app.post('/update', function(req,res){
+        UserSchema.findById(req.user._id,function(err, user){
+            if(err) 
+                throw err;
+            if(user.local.name != null)
+                user.local.name=req.body.name;
+            else
+                user.google.name=req.body.name;
+            user.save();
+            res.render('profile.ejs',{user: user});
+        });
+    });
 //=========Delete all users=========
     app.get('/remove_content',function(req,res){
         UserSchema.remove({},function(err){
