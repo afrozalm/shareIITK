@@ -13,9 +13,9 @@ var itemSchema = new Schema({
 
 	item_status : Number, // 0 for delete, 1 for invisible, 2 for visible
 	category    : {
-		book and study material       : Boolean,
+		book		 : Boolean,
 		cycle        : Boolean,
-		mattress     : Boolean,
+		mattress     : Boolean
 		//cooler		 : Boolean,	
 	},
     description : String
