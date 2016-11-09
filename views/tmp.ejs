@@ -14,9 +14,14 @@
 
 <div class="col-sm-6 col-sm-offset-3">
 
-	<h1><span class="fa fa-sign-in"></span> Item Request Succesful<br> We'll notify you when your object is ready :P</h1><%=owner_id %><%= user %>
+	<h1><span class="fa fa-sign-in"></span> Item Request Succesful<br> We'll notify you when your object is ready :P</h1>
 </div>
-
+  <div>
+	<form action="/return_to_dashboard" method="post">
+        <div>
+			<button type="submit" class="btn btn-warning btn-lg">Return to DashBoard</button>
+         </div>
+	</form>
 </div>
 </body>
 </html>
