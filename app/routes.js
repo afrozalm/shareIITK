@@ -294,7 +294,7 @@ module.exports = function(app, passport) {
             //else
                 //user.google.name=req.body.name;
             user.save();
-            res.render('profile.ejs',{user: user});
+            res.redirect('/profile');
         });
     });
 //=========Delete all users=========
