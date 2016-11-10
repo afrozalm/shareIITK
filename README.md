@@ -1,4 +1,5 @@
-# SHARE@IITK platform to share personal items for the IITK Community!*
+# SHARE@IITK 
+*A platform to share personal items for the IITK Community!*
  GROUP -1729, CS252, FALL 2016
 #### Name of Group Members:
  1. Mohammad Afroz Alam
