@@ -2,53 +2,63 @@
 <!doctype html>
 <html>
 <head>
-	<title>ShareIITK-searchFound</title>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-	<style>
-		body 		{ padding-top:80px; word-wrap:break-word; }
-	</style>
-    
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
 
+	<title>ShareIITK-searchFound</title>
+	<style>
+		table {
+			font-family: arial, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		td, th {
+			border: 1px solid #dddddd;
+			text-align: left;
+			padding: 8px;
+		}
+
+		tr:nth-child(even) {
+			background-color: #dddddd;
+		}
+	</style>
 </head>
 <body>
-<div class="container">
-
-	<div class="page-header text-center">
-        <% if ( itemList.length == 0 ) { %>
-            <h1><span class="fa fa-anchor"></span> No Matches Found!</h1>
-        <% } else{ %>
-            <h1><span class="fa fa-anchor"></span> The following items matched your search!</h1>
-        <% }%>
-	</div>
-
-	<div class="row">
-
-    
-    <div>
-        <% for ( var i=0; i < itemList.length; i++ ) { %>
+<h1> <center>SEARCH RESULTS</center></h1>
+<form action='/request' method='post' id="my_form"></form>
+<table>
+  <tr>
+    <th>Item Name</th>
+    <th>Description</th>
+    <th>Owner ID</th>
+	<th>Request</th>
+  </tr>
+   <% for ( var i=0; i < itemList.length; i++ ) { %>
            <% if(itemList[i].request_notification == null) {%>
-		    <% if(itemList[i].item_status == 2) {%>
+		   <% if(itemList[i].item_status == 2) {%>
 		   <% if(user._id.toString().localeCompare(itemList[i].username) !=0) {%>
-			<li>
-				<strong>
-                   <form action='/request' method='post'>  
-                    <div class="form-group" style="display : in-line">
-
-                    <%= itemList[i].name %> 
-                    <input type="hidden" name='request_button_ownerid' value='<%= itemList[i].username %>'>
-                    <input type="hidden" name='request_button_itemid' value='<%= itemList[i]._id %>'>
-                    <button class="btn btn-default" type="submit">  Request  </button>
-                
-                    </div>
-                    </form>
-                </strong>
-            </li>
+			         <tr>
+						<td><%=itemList[i].name %></td>
+						<td><%=itemList[i].description %></td>
+						<td><%=itemList[i].username %></td>
+					<input type="hidden" name='request_button_ownerid' form ="my_form" value='<%= itemList[i].username %>'>
+                    <input type="hidden" name='request_button_itemid' form ="my_form" value='<%= itemList[i]._id %>'>
+                    <td><button class="btn btn-default" form ="my_form" type="submit">  Request  </button> </td>
+					 </tr>
 			<%}%>
 			<% }%>
             <% } %>
             <% } %>
-    </div>
-</div>
+</table>
+<form action="/" method="get">
+		<div class="form-group">
+		<br>
+			<center>	<button type="submit" class="btn btn-warning btn-lg">Return to DashBoard</button> </center>
+         </div>
+</form>
+
 </body>
 </html>
+
+

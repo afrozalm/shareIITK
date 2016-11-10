@@ -93,7 +93,7 @@ module.exports = function(app, passport) {
 			UserSchema.findById(Requester, function(err,requester)
 			{
                 {
-                    requester.notification.push( "Your request for the item \"" + item.name + "\" has been accepted by " + req.user.local.name ); 
+                    requester.notification.push( "Your request for the item \"" + item.name + "\" has been accepted by " + req.user.local.name+ ". Please contact the owner on "+ req.user.local.email+ "."); 
                     requester.save();
                 }
 				//requester.save();
