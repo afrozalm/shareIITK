@@ -93,10 +93,10 @@ module.exports = function(app, passport) {
 			UserSchema.findById(Requester, function(err,requester)
 			{
                 {
-                    requester.notification.push( "Sorry your request for the item \"" + item.name + "\" has been rejected." ); 
+                    requester.notification.push( "Your request for the item \"" + item.name + "\" has been accepted by " + req.user.local.name ); 
                     requester.save();
                 }
-				requester.save();
+				//requester.save();
 			})
 		});
 

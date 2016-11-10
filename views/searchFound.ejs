@@ -32,9 +32,8 @@
 		   <% if(user._id.toString().localeCompare(itemList[i].username) !=0) {%>
 			<li>
 				<strong>
-				<% console.log("username"  +" " +itemList[i].username+ "    "+user._id)%>
                    <form action='/request' method='post'>  
-                    <div class="form-group">
+                    <div class="form-group" style="display : in-line">
 
                     <%= itemList[i].name %> 
                     <input type="hidden" name='request_button_ownerid' value='<%= itemList[i].username %>'>

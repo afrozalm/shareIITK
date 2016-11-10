@@ -3,14 +3,23 @@
 <html>
 <head>
 	<title>Node Authentication</title>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 	<style>
-		body 		{ padding-top:80px; }
+        body {
+              background-image:url('library.jpg');
+              background-size : cover;
+              min-width: 100%;
+              min-height: 100%;
+              padding-top : 80px;
+              background-repeat : no-repeat;                             
+        }
 	</style>
 </head>
-<body>
-<div class="container">
+<body  >
+<div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px; background-color : lightgray; opacity : 0.7; border-radius : 15px" id="band">
 
     <% if ( home == 0 ) { %>
         <div class="col-sm-6 col-sm-offset-3">
@@ -26,15 +35,15 @@
             <form action="/login" method="post">
                 <input type='hidden' name='action' value=1>
                     <div class="form-group">
-                    <label>Email</label>
+                    <span style="margin-right:3.15em">Email </span>
                     <input type="text" class="form-control" name="email">
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
+                    <span style="margin-right:1.25em">Password </span>
                     <input type="password" class="form-control" name="password">
                 </div>
 
-                <button type="submit" class="btn btn-warning btn-lg">Login</button>
+                <button type="submit" class="w3-btn w3-margin-bottom">Login</button>
             </form>
 
             <hr>
@@ -51,7 +60,7 @@
 
             <form action='/' method = 'post'>
                 <input type='hidden' name='action' value=0>
-                <button type="submit" class="btn btn-default"><span class="fa fa-user"></span> Login</button>
+                <button type="submit" class="w3-btn w3-margin-bottom"><span class="fa fa-user"></span> Login</button>
             </form>
             <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Signup</a>
 

@@ -23,7 +23,7 @@
 
 
     <!-- Search Query Form -->
-    <form action="/insert" method="POST">
+    <form action="/insert" method="POST" style="display:inline">
         <div class="form-group">
             <label>Item Name</label>
             <input type="TEXT" class="form-control" name="name" required>
@@ -37,10 +37,11 @@
             <input type="TEXT" class="form-control" name="description" required>
         </div>
 
-        <button type="submit" class="btn btn-warning btn-lg"> Insert </button>
+        <button type="submit" class="btn btn-warning btn-lg" > Insert </button>
     </form>
 
-    <form action='/' method="get">
+<br><br>
+    <form action='/' method="get" style="display: inline">
         <div>
             <button type="submit" class="btn btn-warning btn-lg"> Cancel Insert </button>
         </div>

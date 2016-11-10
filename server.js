@@ -19,7 +19,10 @@ app.listen(3001, function(){
     console.log('listening on 3001')
 })
 
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: true}));
+
+//Added by members
+app.use(express.static('public'));
 
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)

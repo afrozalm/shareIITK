@@ -3,88 +3,110 @@
 <html>
 <head>
 	<title>Node Authentication</title>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 	<style>
-		body 		{ padding-top:80px; word-wrap:break-word; }
+        body {font-family: "Lato", sans-serif}
 	</style>
 </head>
+
 <body>
-<div class="container">
+<div class="w3-top">
 
-	<div class="page-header text-center">
-		<h1><span class="fa fa-anchor"></span> Profile Page: Welcome <%= user.local.name %><%= user.google.name %></h1>
-		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
-		<a href="/insert" class="btn btn-default btn-sm">Insert Item</a>
-		<a href="/search" class="btn btn-default btn-sm">Search Item</a>
-		<a href="/update" class="btn btn-default btn-sm">Update Profile</a>
-	</div>
+    <ul class="w3-navbar w3-black w3-card-2 w3-left-align">
+          <li class="w3-hide-medium w3-hide-large w3-opennav w3-right">
+                <a class="w3-padding-large" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+          </li>
+          <li><a href="/profile" class="w3-hover-none w3-hover-text-grey w3-padding-large"> Profile </a></li>
+          <li class="w3-hide-small"><a href="/insert" class="w3-padding-large"> Insert </a></li>
+          <li class="w3-hide-small"><a href="/search" class="w3-padding-large"> Search </a></li>
+          <li class="w3-hide-small"><a href="/update" class="w3-padding-large"> Update </a></li>
+          <li class="w3-hide-small"><a href="/logout" class="w3-padding-large"> <font color =red> Logout</font> </a></li>
+          <li class="w3-hide-small w3-right"><a href="/search" class="w3-padding-large w3-hover-red"><i class="fa fa-search"></i></a></li>
+    </ul>
+    </div>
 
-	<div class="row">
-
-		<!-- LOCAL INFORMATION -->
-		<div class="col-sm-6">
-			<div class="well">
-				<h3><span class="fa fa-user"></span> Local</h3>
-
-					<p>
-						<strong> Your USER ID</strong>: <%= user._id %><br>
-						<strong>Email</strong>: <%= user.local.email %><br>
-									
-                        <strong>Name</strong>: <%= user.local.name %><br>
-                        <% if ( user.notification.length > 0 ) { %>
-                            <% for(  var k = 0; k < user.notification.length; k++) {%>
-                                <strong><%= user.notification[k] %></strong><br>
-                            <% }%>
-                            <form action="clearall" method="post">
-                                <button class="btn btn-default btn-sm" type="submit"> Clear All Notification</button>
-                            </form>
-                        <% } %>
-                        <div>
-                            <strong>Items Shared by You </strong> 
-                            <% for ( var i = 0; i < user.itemList.length; i++ ) { %>
-								<% if (user.itemList[i].item_status != 0) {%>
-									<li>
-										<strong>
-											<%= user.itemList[i].name %>
-										</strong>
-												<form action="/delete" method="POST">
-														<div class="form-group">
-															<input type="hidden" name='request_button_ownerid' value='<%= user._id %>'>
-															<input type="hidden" name='request_button_itemid' value='<%= user.itemList[i]._id %>'>
-															<button type="submit" class="btn btn-default btn-sm"> Delete Item </button>
-														</div>
-													</form>
-										<% if (user.itemList[i].item_status == 1) { %>
-													<form action="/accept" method="POST">
-														<div class="form-group">
-                                                            <span> Requested by <%= user.itemList[i].requester_name%></span>
-															<input type="hidden" class="form-control" name="itemID" value="<%= user.itemList[i]._id%>">
-															<input type="hidden" name='User_Requested' value='<%= user.itemList[i].request_notification %>'>
-															<button type="submit" class="btn btn-default btn-sm"> Accept Request </button>
-														</div>
-													</form> 
-													<form action="/reject" method="POST">
-														<div class="form-group">
-															<input type="hidden" name="request_button_itemid" value="<%= user.itemList[i]._id%>">
-															<input type="hidden" name='request_button_ownerid' value='<%= user._id %>'>
-															<input type="hidden" name='User_Requested' value='<%= user.itemList[i].request_notification %>'>
-															<button type="submit" class="btn btn-default btn-sm"> Reject Request </button>
-														</div>
-													</form>
-												<% } %>
-									</li>
-								<% } %>
-                            <% } %>
-                        </div>
-                    </p>
-
-					</p>
-
-			</div>
-		</div>
-	</div>
-
+<!-- Image -->
+<div class="mySlides w3-display-container w3-center">
+    <img src="background.jpg" style="width:100%">
+    <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+        <font face="Helvetica" color = black size=42> <p><b> Share@IITK </b> <p></font>
+        <font color = "#6F3906" size =30><p><b>Welcome <%= user.local.name %>!</b></p></font>
+        <br><br><br><br><br><br>
+    </div>
 </div>
+<br>
+<br>
+        <% if ( user.notification.length > 0 ) { %>
+            <% for(  var k = 0; k < user.notification.length; k++) {%>
+                <strong><%= user.notification[k] %></strong><br>
+            <% }%>
+            <form action="clearall" method="post">
+                <button class="btn btn-default btn-sm" type="submit"> Clear All Notification</button>
+            </form>
+        <% } %>
+ 
+<br>
+<br>
+
+<!--Items shared section -->
+<div class="w3-black" id="tour">
+        <br>
+        <strong><center> <font size = 5> Items Shared by You </font></center></strong> 
+        <br>
+
+        <% for ( var i = 0; i < user.itemList.length; i++ ) { %>
+            <% if (user.itemList[i].item_status != 0) {%>
+
+                    <div class="w3-row-padding w3-padding-32" style="margin:0 -16px; display: inline-block; width: 30%; height: 100%">
+                        <div class="w3-third w3-margin-bottom" style = "margin: 10px; width: 97%">
+                            <div class="w3-container w3-white" style="width: 100%" >
+                                <font size = 5><p><b>  <%= user.itemList[i].name %> </b></p></font>
+                                <p class="w3-opacity"> <%= user.itemList[i].category %> </p>
+                                <p> <%= user.itemList[i].description %> </p>
+                                
+
+                                <form  action="/delete" method="POST">
+                                    <input type="hidden" name='request_button_ownerid' value='<%= user._id %>'>
+                                    <input type="hidden" name='request_button_itemid' value='<%= user.itemList[i]._id %>'>
+                                    <button type="submit" class="w3-btn w3-margin-bottom"> Delete Item </button>
+                                </form>
+
+                            <% if (user.itemList[i].item_status == 1) { %>
+                                    <span> <font size = 5 >Requested by <b><%= user.itemList[i].requester_name %>:</b></font></span><br>
+                            <% } %>
+
+                    <% if (user.itemList[i].item_status == 1) { %>
+                        <form style = "display: inline;" action="/accept" method="POST">
+                            <input type="hidden" class="form-control" name="itemID" value="<%= user.itemList[i]._id%>">
+                            <input type="hidden" name='User_Requested' value='<%= user.itemList[i].request_notification %>'>
+                            <button type="submit" class="w3-btn w3-margin-bottom"> Accept Request </button>
+                        </form> 
+                        
+                        <form style = "display: inline;"action="/reject" method="POST">
+                            <input type="hidden" name="request_button_itemid" value="<%= user.itemList[i]._id%>">
+                            <input type="hidden" name='request_button_ownerid' value='<%= user._id %>'>
+                            <input type="hidden" name='User_Requested' value='<%= user.itemList[i].request_notification %>'>
+                            <button type="submit" class="w3-btn w3-margin-bottom"> Reject Request </button>
+                        </form>
+                    <% } %>
+                    </div>
+                </div>
+
+            </div>
+            <% } %>
+        <% } %>
+</div>
+
+<!-- The Info Section -->
+<div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
+<h2 class="w3-wide w3-center"> User Info</h2>
+    <i class="fa fa-user" style="width:30px"></i> <%= user.local.name %><br>
+    <i class="fa fa-envelope" style="width:30px"></i> Email: <%= user.local.email %><br>
+    <i class="fa fa-info" style="width:30px"> </i> User-ID: <%= user._id %><br>
+</div>
+<br>    
 </body>
 </html>
