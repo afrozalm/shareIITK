@@ -30,8 +30,11 @@
 					<p>
 						<strong> Your USER ID</strong>: <%= user._id %><br>
 						<strong>Email</strong>: <%= user.local.email %><br>
-
+									
                         <strong>Name</strong>: <%= user.local.name %><br>
+						<% if(user.notification != null) {%>
+							<strong><%= user.notification %></strong></br>
+						<% }%>
                         <div>
                             <strong>Items Shared by You </strong> 
                             <% for ( var i = 0; i < user.itemList.length; i++ ) { %>
@@ -58,7 +61,6 @@
 													</form> 
 													<form action="/reject" method="POST">
 														<div class="form-group">
-															<% console.log("ID DEKHLO"+user.itemList[i]._id); %>
 															<input type="hidden" name="request_button_itemid" value="<%= user.itemList[i]._id%>">
 															<input type="hidden" name='request_button_ownerid' value='<%= user._id %>'>
 															<input type="hidden" name='User_Requested' value='<%= user.itemList[i].request_notification %>'>

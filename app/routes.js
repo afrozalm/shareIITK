@@ -81,8 +81,29 @@ module.exports = function(app, passport) {
 	// ACCEPT SECTION ======================
 	// =====================================
 	// this section holds the required things to be done while accepting a request
-    app.post('/accept', function(req, res){
-        console.log(req.body.itemID);
+		//console.log("mera user");
+        //console.log(req.user._id);
+		//var item_id = req.body.request_button_itemid;
+         app.post('/accept', function(req, res){
+        
+		var Requester = req.body.User_Requested;
+	   Item.findById(req.body.itemID,function(err,item){
+		   
+			//console.log("HERE"+ item_id);
+		   if(err)
+				console.log(err);
+			//item.request_notification = null;
+			//item.requester_name = null;
+			//item_status = 2;
+			UserSchema.findById(Requester, function(err,requester)
+			{
+				requester.notification = "Congratulations! Your request for the item " + item.name + " has been accepted.\n Owner's email id is "+ req.user.local.email + " . Feel free to contact the owner."; 
+				requester.save();
+			})
+            //item.save();
+		});
+
+		console.log(req.body.itemID);
         Item.findByIdAndUpdate(req.body.itemID,{
             item_status : 0
         }, function(err){
@@ -194,6 +215,7 @@ module.exports = function(app, passport) {
 //=========REJECT=====================
     app.post('/reject', function(req, res ){
 		var owner_id = req.body.request_button_ownerid;
+		var Requester = req.body.User_Requested;
 		//console.log("mera user");
         //console.log(req.user._id);
 		var item_id = req.body.request_button_itemid;
@@ -203,20 +225,25 @@ module.exports = function(app, passport) {
 		   if(err)
 				console.log(err);
 			item.request_notification = null;
+			item.requester_name = null;
 			item_status = 2;
-			item.save();
+			UserSchema.findById(Requester, function(err,requester)
+			{
+				requester.notification = "Sorry your request for the item " + item.name + " has been rejected."; 
+				requester.save();
+			})
+    		item.save();
 		});
-
-       
+   
         UserSchema.findById(req.user._id,function(err,owner){
 
             for(var i=0;i<owner.itemList.length;i++){
                 if(owner.itemList[i]._id==item_id){
                     owner.itemList[i].request_notification = null;
+					owner.itemList[i].requester_name = null;
                     owner.itemList[i].item_status = 2;
 					owner.itemList[i].save();
                     owner.save();
-					console.log( "Here ------>" + owner.itemList[i].request_notification);
                 }
             }
           	res.redirect('/profile');
@@ -231,21 +258,18 @@ module.exports = function(app, passport) {
 			 
 		Item.findById(item_id,function(err,item){
 			item.request_notification = req.user._id;
+			item.requester_name = req.user.local.name;
 			item_status = 1;
 			console.log("HERE");
 			item.save();
 		});
-        //Item.update(item_id,{
-            //request_notification: req.user._id,
-			//item_status: 1
-        //});
-	
 
         UserSchema.findById(owner_id,function(err,owner){
 
             for(var i=0;i<owner.itemList.length;i++){
                 if(owner.itemList[i]._id==item_id){
-                    owner.itemList[i].request_notification=req.user._id;
+                    owner.itemList[i].request_notification = req.user._id;
+					owner.itemList[i].requester_name = req.user.local.name;
 					owner.itemList[i].item_status = 1;
                     owner.itemList[i].save();
                     owner.save();

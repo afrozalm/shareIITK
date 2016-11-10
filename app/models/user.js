@@ -10,6 +10,7 @@ var itemSchema = new Schema({
     username    : { type : mongoose.Schema.Types.ObjectId, ref: userSchema  },          // owner name
 	category    : { type: String, required: true  },                                    // category
     request_notification : { type : mongoose.Schema.Types.ObjectId, default: null },    // id of user which requested this item
+	requester_name       : { type : String, default : null },
 
 	item_status : Number, // 0 for delete, 1 for invisible, 2 for visible
 	//category    : {
