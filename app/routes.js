@@ -88,19 +88,16 @@ module.exports = function(app, passport) {
         
 		var Requester = req.body.User_Requested;
 	   Item.findById(req.body.itemID,function(err,item){
-		   
-			//console.log("HERE"+ item_id);
 		   if(err)
 				console.log(err);
-			//item.request_notification = null;
-			//item.requester_name = null;
-			//item_status = 2;
 			UserSchema.findById(Requester, function(err,requester)
 			{
-				requester.notification = "Congratulations! Your request for the item " + item.name + " has been accepted.\n Owner's email id is "+ req.user.local.email + " . Feel free to contact the owner."; 
+                {
+                    requester.notification.push( "Sorry your request for the item \"" + item.name + "\" has been rejected." ); 
+                    requester.save();
+                }
 				requester.save();
 			})
-            //item.save();
 		});
 
 		console.log(req.body.itemID);
@@ -144,6 +141,18 @@ module.exports = function(app, passport) {
 							console.log(err);
 					});	
 		res.redirect('/profile');
+    });
+
+    app.post('/clearall', function(req, res){
+        UserSchema.findById(req.user, function(err, user){
+           if(err)
+                console.log(err);
+            while(user.notification.length > 0) {
+                    user.notification.pop();
+            }
+            user.save();
+        });
+        res.redirect('/');
     });
 
 // SEARCH ===============================
@@ -219,21 +228,21 @@ module.exports = function(app, passport) {
 		//console.log("mera user");
         //console.log(req.user._id);
 		var item_id = req.body.request_button_itemid;
-       Item.findById(item_id,function(err,item){
-		   
-			//console.log("HERE"+ item_id);
-		   if(err)
-				console.log(err);
-			item.request_notification = null;
-			item.requester_name = null;
-			item_status = 2;
-			UserSchema.findById(Requester, function(err,requester)
-			{
-				requester.notification = "Sorry your request for the item " + item.name + " has been rejected."; 
-				requester.save();
-			})
-    		item.save();
-		});
+           Item.findById(item_id,function(err,item){
+               
+                //console.log("HERE"+ item_id);
+               if(err)
+                    console.log(err);
+                item.request_notification = null;
+                item.requester_name = null;
+                item_status = 2;
+                UserSchema.findById(Requester, function(err,requester)
+                {
+                    requester.notification.push( "Sorry your request for the item \"" + item.name + "\" has been rejected." ); 
+                    requester.save();
+                })
+                item.save();
+            });
    
         UserSchema.findById(req.user._id,function(err,owner){
 

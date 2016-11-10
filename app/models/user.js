@@ -35,8 +35,8 @@ var userSchema = new Schema({
         email           : String,
         name            : String
     },
-	notification : {type: String, default: null},
-	itemList        : [itemSchema]
+	notification        : [ { type: String, default: null } ],
+	itemList            : [itemSchema]
 });
 
 // methods ======================

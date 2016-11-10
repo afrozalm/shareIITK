@@ -32,9 +32,14 @@
 						<strong>Email</strong>: <%= user.local.email %><br>
 									
                         <strong>Name</strong>: <%= user.local.name %><br>
-						<% if(user.notification != null) {%>
-							<strong><%= user.notification %></strong></br>
-						<% }%>
+                        <% if ( user.notification.length > 0 ) { %>
+                            <% for(  var k = 0; k < user.notification.length; k++) {%>
+                                <strong><%= user.notification[k] %></strong><br>
+                            <% }%>
+                            <form action="clearall" method="post">
+                                <button class="btn btn-default btn-sm" type="submit"> Clear All Notification</button>
+                            </form>
+                        <% } %>
                         <div>
                             <strong>Items Shared by You </strong> 
                             <% for ( var i = 0; i < user.itemList.length; i++ ) { %>
